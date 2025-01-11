@@ -1,0 +1,38 @@
+section {
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    min-height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text */
+    gap: 20px; /* Add space between elements */
+    margin: 0;
+}
+
+
+img {
+    border: 1px solid black; /* Adds a border with black color */
+    border-radius: 50%; /* Makes the image circular */
+    height: 200px; /* Sets the height */
+    width: 200px; /* Sets the width */
+    padding: 20px; /* Adds space inside the border */
+    background-color: rgb(213, 244, 182);
+}
+
+.items li:first-child {
+    color: green;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.items li:nth-child(2) {
+    color: yellow;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.items li:last-child {
+    color: red;
+    font-weight: bold;
+    font-size: 24px;
+}
