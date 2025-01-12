@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   margin-top: 80px;
+
+
+}
+
+img {
+    height: 90px;
+    width: 100px;
+    border: 4px rgb(237, 9, 9) solid;
+    padding: 1px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+li {
+    margin-bottom:10px;
+}
+
+button {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}

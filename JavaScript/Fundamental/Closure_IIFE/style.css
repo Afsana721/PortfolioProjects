@@ -1,0 +1,36 @@
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+#tony-img {
+    height: 200px;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+#map-img {
+    height: 200px;
+    width: 300px;
+    margin-top: 20px;
+    transition: opacity 0.5s ease; /* Smooth fade-in animation */
+}
+
+ul#debug-log {
+    margin-top: 20px;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.show-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
