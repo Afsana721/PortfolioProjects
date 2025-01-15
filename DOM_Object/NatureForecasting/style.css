@@ -1,0 +1,229 @@
+/* Header styles */
+#nature_img h1 {
+    text-align: center;
+    font-size: 40px; /* Slightly larger font */
+    color: #0056d6; /* Softer shade of blue */
+    font-family: 'Courier New', cursive;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+    animation: fadeIn 2s ease-in-out; /* Fade-in effect */
+}
+
+/* Keyframe for the fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Slight upward movement */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Main image styles */
+#nature_img img {
+    width: 100%; 
+    height: 250px; 
+    object-fit: cover; 
+    display: block; 
+    filter: brightness(0.9) contrast(1.1); /* Slightly enhance colors */
+    transition: transform 0.5s ease, filter 0.5s ease; /* Smooth hover effect */
+}
+
+#nature_img img:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    filter: brightness(1.1) contrast(1); /* Lighten the image slightly */
+}
+
+/* Navigation styles */
+#mainNav {
+    position: absolute; /* Position the nav relative to the container */
+    top: 200px; /* Adjusted to avoid overlapping the h1 */
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#mainNav ul {
+    list-style: none; /* Remove dots */
+    display: inline-flex; /* Align items side by side */
+    justify-content: center;
+    gap: 20px; /* Adds space between items */
+    padding: 0;
+    margin: 0;
+}
+
+#mainNav li {
+    padding: 10px 20px; /* Add spacing */
+    background-color: rgba(255, 255, 255, 0.7); /* Add semi-transparent background */
+    border-radius: 5px;
+    margin: 0 10px; /* Spacing between items */
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+#mainNav li:hover {
+    background-color: rgba(255, 255, 255, 1); /* Fully opaque on hover */
+    color: #0056d6; /* Change text color on hover */
+}
+
+/* Section styles */
+#living_things {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 20px; /* Space between images */
+    margin: 30px auto; /* Center section on the page */
+    max-width: 90%; /* Constrain width for better alignment */
+}
+
+#living_things img {
+    width: 500px; /* Fixed width for uniformity */
+    height: 350px; /* Fixed height to match */
+    object-fit: cover; /* Ensures the images fill the dimensions without distortion */
+    box-shadow: 0 4px 10px rgba(243, 6, 6, 0.2); /* Add shadow for effect */
+    border-radius: 5px; /* Slight rounding */
+}
+
+#life-weather {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#life-weather h2 {
+    font-size: 24px;
+    color: #0056d6;
+    margin-bottom: 10px;
+}
+
+#life-weather p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+
+/* Weather Forecasting Section */
+#weather-forecasting {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px auto;
+    max-width: 90%;
+}
+
+#weather-forecasting img {
+    width: 500px; /* Maintain consistency */
+    height: auto;
+    box-shadow: 0 4px 10px rgba(243, 6, 6, 0.2); /* Slight shadow */
+    border-radius: 5px;
+}
+
+#History\ of\ Weather {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#History\ of\ Weather h2 {
+    font-size: 24px;
+    color: #0056d6;
+    margin-bottom: 10px;
+}
+
+#History\ of\ Weather p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+#age_forecasting {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(240, 240, 240, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#age_forecasting h2 {
+    font-size: 20px;
+    color: #0056d6;
+    margin-bottom: 10px;
+}
+
+#age_forecasting p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+#age_forecasting a {
+    text-decoration: none;
+    color: #0056d6;
+    font-weight: bold;
+}
+
+#age_forecasting a:hover {
+    text-decoration: underline;
+}
+
+/* Austin weather  */
+
+/* Austin Weather Section */
+#austin-weather {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#austin-weather h2 {
+    font-size: 24px;
+    color: #0056d6; /* Same blue as the other sections */
+    margin-bottom: 10px;
+}
+
+#austin-weather p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+#austin-weather img {
+    width: 500px; /* Uniform image size */
+    height: auto;
+    box-shadow: 0 4px 10px rgba(243, 6, 6, 0.2); /* Consistent shadow */
+    border-radius: 5px; /* Rounded edges */
+    margin: 10px auto; /* Space around images */
+}
+
+#austin-weather article {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(240, 240, 240, 0.9); /* Subtle background for the article */
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#austin-weather article h2 {
+    font-size: 20px;
+    color: #0056d6;
+    margin-bottom: 10px;
+}
+
+#austin-weather article p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+#austin-weather article a {
+    text-decoration: none;
+    color: #0056d6;
+    font-weight: bold;
+}
+
+#austin-weather article a:hover {
+    text-decoration: underline;
+}
