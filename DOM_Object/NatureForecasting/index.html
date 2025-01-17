@@ -46,53 +46,28 @@
             <p>The history of weather studies, also called meteorology, dates back to
                 ancient civilizations like the Babylonians who used cloud patterns and
                 astronomical events to predict seasonal weather changes.</p>
-            <article id="age_forecasting">
-                <h2>Art of Weather Forecasting Began with Early Civilizations</h2>
-                <p>The art of weather forecasting began with early civilizations using
-                    recurring astronomical and meteorological events to help them
-                    monitor seasonal changes in the weather. Around 650 B.C.,
-                    the Babylonians tried to predict short-term weather changes based
-                    on the appearance of clouds and optical phenomena such as haloes.
-                    By 300 B.C., Chinese astronomers had developed a calendar that
-                    divided the year into 24 festivals, each festival associated with a
-                    different type of weather.</p>
-                <a href="https://earthobservatory.nasa.gov/" target="_blank">
-                    Visit Website</a>
-            </article>
         </section>
 
         <section id="austin-weather">
-            <img src="./assets/AustinTX.png" alt="austin image" />
-            <img src="./assets/Austin_rose.JPG" alt="Flowers in Austin" />
             <h2>Austin weather history:</h2>
-            <p>The <b>hottest</b>, <b>coldest</b> and <b>wettest</b> Christmases over the years</p>
-            <section id="data">
-                <p id="weather_data">
-                    <img src="./assets/Temp_logo.jpg" alt="Weather Logo" style="cursor: pointer; width: 50px; height: 50px;">
-                </p>
-                
-            </section>
-            <article>
-                <h2>Climate Projections for Austin</h2>
-                <p><strong>Discover the latest climate projections to understand how climate change will shape the
-                        city's future weather patterns.</strong>
-                <p>Recent projections for Austin indicate a future with hotter summers, more frequent heatwaves, and
-                    fewer cold spells. Rainfall projections are highly uncertain, but the amount of rainfall in our area
-                    is expected to remain relatively unchanged. As the climate shifts, we can anticipate more extreme
-                    weather, more climate variability, and a slight increase in windy days.
-
-                    These projections have been meticulously calculated and analyzed by a team at the University of
-                    Texas at Austin as part of the UT-City Climate CoLab — the first city-specific climate collaborative
-                    globally. Experts outlined potential outcomes based on two different emissions scenarios, each fully
-                    dependent on human activity — or inactivity — in the face of climate change:
-
-                    "High-emissions scenario" — a situation where emissions from human activities keep increasing
-                    rapidly.
-                    "Business-as-usual emissions scenario" — a situation where our emissions remain the same as they are
-                    now.</p>
-                    <a href="https://www.austintexas.gov/page/climate-projections-austin"
-                     target="_blank">Read more!</a>
+            <article id="sidebar">
+                <img src="./assets/Temp_logo.jpg" alt="Weather Logo" id="temp-logo">
+                <dl>
+                    <dt>Temperature:</dt>
+                    <dd id="temp-value">--</dd>
+                    <dt>Condition:</dt>
+                    <dd id="condition-value">--</dd>
+                </dl>
             </article>
+        </section>
+
+        <!-- Current forecast -->
+        <section id="forecast">
+            <h2>7-Day Weather Forecast</h2>
+            <img id="data_logo" src="./assets/forecast_logo.png" alt="7 days weather data">
+            <div class="forecast-wrapper">
+                <!-- Forecast boxes will be dynamically added here -->
+            </div>
         </section>
     </main>
     <script src="app.js"></script>

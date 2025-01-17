@@ -1,68 +1,104 @@
-// Wait for the DOM to fully load before executing any JavaScript
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to change the header text when clicked
-    function headerTextClick(event) {
-        const headerText = document.getElementById('nature_img').querySelector('h1');
-        // Toggle between two text contents
-        if (headerText.textContent === "Nature of the Weather") {
-            headerText.textContent = "Lives depend on the Nature";
-        } else {
-            headerText.textContent = "Nature of the Weather";
-        }
-    }
+    const currentWeatherUrl = "https://api.weatherapi.com/v1/current.json?key=d8068976e5c440ca85a61029251501&q=Austin";
+    const forecastWeatherUrl = "https://api.weatherapi.com/v1/forecast.json?key=d8068976e5c440ca85a61029251501&q=Austin&days=7";
 
-    // Get the header element (h1) and attach a click event listener to it
-    const headerText = document.getElementById('nature_img').querySelector('h1');
-    if (headerText) {
-        headerText.addEventListener('click', headerTextClick);
-    }
+    const forecastWrapper = document.querySelector('.forecast-wrapper');
+    const forecastHeading = document.querySelector("#forecast h2");
+    const dataLogo = document.getElementById('data_logo');
+    const headerText = document.querySelector("#nature_img h1");
+    const navImage = document.querySelector("#nature_img img");
+    const sidebarTempValue = document.querySelector("#temp-value");
+    const sidebarConditionValue = document.querySelector("#condition-value");
 
-    // Function to change the image in the main element when clicked
-    function imageClicked(event) {
-        const mainImage = document.getElementById('nature_img').querySelector('img');
-        // Toggle between two image sources
-        if (mainImage.src.includes("weatherImg1.webp")) {
-            mainImage.src = "./assets/weather.jpg";
-        } else {
-            mainImage.src = "./assets/weatherImg1.webp";
-        }
-    }
-
-    // Get the main image element and attach a click event listener to it
-    const mainImage = document.getElementById('nature_img').querySelector('img');
-    if (mainImage) {
-        mainImage.addEventListener('click', imageClicked);
-    }
-});
-
-// Wait for the DOM to fully load before executing the weather data logic
-document.addEventListener('DOMContentLoaded', () => {
-    // Get the logo image inside the weather data section
-    const logo = document.querySelector('#weather_data img');
-    // Get the container where weather data will be displayed
-    const weatherDataElement = document.getElementById('weather_data');
-
-    // Add a click event listener to the logo to fetch weather data
-    logo.addEventListener('click', () => {
-        // API URL to fetch current weather data for Austin
-        const weatherDataUrl = "https://api.weatherapi.com/v1/current.json?key=d8068976e5c440ca85a61029251501&q=Austin";
-
-        // Fetch the weather data from the API
-        fetch(weatherDataUrl)
-            .then(response => response.json()) // Convert the response to JSON
+    // Function to fetch and display the 7-day forecast
+    const fetchSevenDayForecast = () => {
+        fetch(forecastWeatherUrl)
+            .then(response => response.json())
             .then(data => {
-                // Extract temperature and condition from the API response
+                forecastHeading.textContent = "7-Day Weather Forecast";
+                forecastWrapper.innerHTML = ""; // Clear previous content
+
+                data.forecast.forecastday.forEach(day => {
+                    const date = new Date(day.date);
+                    const options = { weekday: 'long', month: 'short', day: 'numeric' };
+
+                    const card = document.createElement('article');
+                    card.classList.add('card');
+
+                    card.innerHTML = `
+                        <h4>${date.toLocaleDateString('en-US', options)}</h4>
+                        <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}">
+                        <dl>
+                            <dt>Temperature:</dt>
+                            <dd>${day.day.avgtemp_c}°C</dd>
+                            <dt>Condition:</dt>
+                            <dd>${day.day.condition.text}</dd>
+                            <dt>Precipitation:</dt>
+                            <dd>${day.day.daily_chance_of_rain}%</dd>
+                        </dl>
+                    `;
+
+                    forecastWrapper.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching 7-day forecast:", error);
+            });
+    };
+
+    // Function to fetch and display the current weather
+    const fetchCurrentWeather = () => {
+        fetch(currentWeatherUrl)
+            .then(response => response.json())
+            .then(data => {
                 const temp = data.current.temp_c;
                 const condition = data.current.condition.text;
 
-                // Update the DOM with the fetched weather data
-                weatherDataElement.innerHTML = `<img src="./assets/Temp_logo.jpg" alt="Weather Logo" style="cursor: pointer; width: 50px; height: 50px;">
-                <br>Current Temp: ${temp}°C, Condition: ${condition}`;
+                forecastHeading.textContent = "Current Weather Forecast";
+                forecastWrapper.innerHTML = `
+                    <article class="card current">
+                        <h4>${data.location.name}, ${data.location.region}</h4>
+                        <img src="https:${data.current.condition.icon}" alt="${condition}">
+                        <dl>
+                            <dt>Temperature:</dt>
+                            <dd>${temp}°C</dd>
+                            <dt>Condition:</dt>
+                            <dd>${condition}</dd>
+                            <dt>Wind:</dt>
+                            <dd>${data.current.wind_kph} km/h</dd>
+                            <dt>Humidity:</dt>
+                            <dd>${data.current.humidity}%</dd>
+                        </dl>
+                    </article>
+                `;
+
+                // Update sidebar temperature and condition
+                sidebarTempValue.textContent = `${temp}°C`;
+                sidebarConditionValue.textContent = condition;
             })
             .catch(error => {
-                // Display an error message if the fetch fails
-                weatherDataElement.textContent = "Error fetching weather data.";
-                console.error(error);
+                console.error("Error fetching current weather data:", error);
             });
+    };
+
+    // Header text click: Update text dynamically and load the 7-day forecast
+    headerText.addEventListener('click', () => {
+        headerText.textContent = "Weather Insights of the Day!";
+        fetchSevenDayForecast(); // Load the 7-day forecast
     });
+
+    // Navigation image click: Update image dynamically and fetch current weather
+    navImage.addEventListener('click', () => {
+        navImage.src = "./assets/new_weather_image.webp"; // Change the image
+        fetchCurrentWeather(); // Fetch and display current weather
+    });
+
+    // Temperature logo click: Fetch current weather and display it dynamically
+    dataLogo.addEventListener('click', fetchCurrentWeather);
+
+    // Forecast logo click: Fetch and display the 7-day forecast
+    dataLogo.addEventListener('dblclick', fetchSevenDayForecast);
+
+    // Fetch 7-day forecast on page load as the default view
+    fetchSevenDayForecast();
 });
