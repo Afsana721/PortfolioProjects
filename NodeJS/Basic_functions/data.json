@@ -1,0 +1,21 @@
+{
+    "Person": {
+      "Asef": [
+        {
+          "information": "Asef is a software developer who loves coding and solving problems.",
+          "Age":13,
+          "School": "Harmony Science Academy",
+          "image": "./images/Asef.jpeg"
+        }
+      ],
+      "Masud": [
+        {
+          "information": "Masud is a graphic designer passionate about creating visuals.",
+          "Age": 50, 
+          "Job": "Flex international",
+          "image": "./images/Masud.png"
+        }
+      ]
+    }
+  }
+  
