@@ -1,0 +1,173 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header Section */
+#site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #c5f0f4;
+    padding: 10px;
+}
+
+/* Logo Section */
+#logo-section {
+    display: flex;
+    align-items: center;
+}
+
+#logo-section img {
+    width: 40px; /* Adjust size for logo */
+    height: auto;
+    margin-right: 10px;
+}
+
+#logo-section span {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Navigation Bar */
+#nav-bar {
+    display: flex; /* Makes all child elements (ul, form) align horizontally */
+    align-items: center; /* Vertically center the items */
+    justify-content: flex-start; /* Align items to the left */
+    background-color: #c8dff6;
+    padding: 10px;
+    border-radius: 8px; /* Adds a curve to the navigation bar */
+    margin: 10px; /* Adds spaching around the nav bar */
+}
+
+#nav-items {
+    display: flex;
+    list-style: none;
+    margin-left: 40px; /* Increase spacing between logo and nav items */
+    padding: 0;
+}
+
+#nav-items a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    margin-right: 25px; /* Add spacing between links */
+}
+
+/* Search Bar */
+form {
+    display: flex; /* Align input and button horizontally */
+    margin-left: auto; /* Push the form to the right */
+}
+
+input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+button {
+    border: 1px solid #ccc;
+    border-left: none;
+    background-color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+}
+
+/* User Options (Sign In and Cart) */
+#user-options {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push to the far right */
+}
+
+#user-options a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+}
+
+#user-options i {
+    margin-right: 5px;
+}
+
+
+/* Shop Page Container */
+#shop-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    text-align: center; /* Center-align the heading */
+}
+
+/* Shop Heading */
+#shop-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Product List */
+#item-list {
+    display: flex; /* Use flexbox to align items in a row */
+    flex-wrap: wrap; /* Wrap items to the next line if they don’t fit */
+    justify-content: center; /* Center-align items horizontally */
+    list-style: none; /* Remove bullets from list */
+    padding: 0;
+    margin: 0;
+}
+
+/* Product Item */
+#item-list li {
+    background-color: #fff; /* White background for product cards */
+    border: 1px solid #ddd; /* Add a subtle border */
+    border-radius: 8px; /* Slightly rounded corners */
+    margin: 10px; /* Add spacing between items */
+    padding: 15px; /* Space inside the card */
+    width: 200px; /* Fixed width for each product */
+    text-align: center; /* Center-align text in the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Product Image */
+#item-list li img {
+    width: 100%; /* Full width inside the card */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px; /* Slight rounding for images */
+    margin-bottom: 10px; /* Space between image and content */
+}
+
+/* Product Title */
+#item-list li h3 {
+    font-size: 18px;
+    margin: 10px 0 5px; /* Add space above and below title */
+    color: #555;
+}
+
+/* Product Price */
+#item-list li p {
+    font-size: 16px;
+    margin: 5px 0 10px; /* Space above and below price */
+    color: #888;
+}
+
+/* Add to Cart Button */
+#item-list li button {
+    background-color: #28a745; /* Green background */
+    color: #fff; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Add space inside the button */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Show pointer on hover */
+    font-size: 14px;
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+#item-list li button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
