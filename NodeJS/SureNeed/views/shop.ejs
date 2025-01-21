@@ -2,44 +2,26 @@
 
 
 
-<!--Shopping items-->
-<section id="shop-container">
-    <h1>Shop Now</h1>
-    <ul id="item-list">
-    <!--placeholder for items-->
-    <li>
-        <img src="/assets/LaptopBag.jpg" alt="Laptop Bag" >
-        <h3>Name</h3>
-        <p>Price: $ ?</p>
-        <p>Categories</p>
-        <button>Add To Cart</button>
-    </li>
-    <li>
-        <img src="/assets/businessBag.jpg" alt="Laptop Bag" >
-        <h3>Name</h3>
-        <p>Price: $ ?</p>
-        <p>Categories</p>
-        <button>Add To Cart</button>
-    </li>
-    <li>
-        <img src="/canvas shoes.jpg" alt="Laptop Bag" >
-        <h3>Name</h3>
-        <p>Price: $ ?</p>
-        <p>Categories</p>
-        <button>Add To Cart</button>
-    </li>
+    <!--Shopping items-->
+    <section id="shop-container">
+        <h1>Shop Now</h1>
+        <ul id="item-list">
+            <!--placeholder for items-->
+            <% items.forEach( item=> { %>
+<!-- add item on the li by ejs from items.js  -->
+                 <!-- Add item dynamically using EJS -->
+            <li>
+                <img src="<%= item.image %>" alt="<%= item.name %>">
+                <h3><%= item.name %></h3>
+                <p>Categories: <%= item.categories %></p>
+                <p>Description: <%= item.description %></p>
+                <p>Price: $<%= item.price %></p>
+                <button>Add To Cart</button>
+            </li>
+                <% })%>
+        </ul>
 
-    </ul>
-
-</section>
+    </section>
 
 
-
-
-
-
-
-
-
-
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>
