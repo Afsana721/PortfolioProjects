@@ -1,44 +1,31 @@
 <%- include('partials/header') %>
 
-<!-- Application name and logo section -->
-<header id="site-header">
-    <!-- Logo of SureNeed -->
-    <section id="logo-section">
-        <img src="/assets/sureneed.png" alt="SureNeed logo" />
-        <span>SureNeed</span>
+<!-- Main Content Section -->
+<main>
+    <section id="home-banner">
+        <h1>Welcome to SureNeed</h1>
+        <p>Your one-stop shop for all your needs!</p>
+        <a href="/shop" class="start-shopping">Start Shopping</a>
     </section>
 
-    <nav id="nav-bar">
-        <!-- Navigation Items -->
-        <ul id="nav-items">
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Watch</a></li>
-            <li><a href="#">Categories</a></li>
-        </ul>
-
-        <!-- Search Bar -->
-        <form action="/search" method="GET">
-            <input type="text" name="query" placeholder="Search items .." />
-            <button type="submit" aria-label="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zm-5.442.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
-                </svg>
-            </button>
-        </form>
-
-        <!-- User Options -->
-        <section id="user-options">
-            <a href="/signin">
-                <i class="fas fa-user"></i>
-                <span>Sign In</span>
-            </a>
-            <a href="/cart">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
-        </section>
-    </nav>
-</header>
+    <!-- Highlighted Categories or Items -->
+    <section id="highlighted-categories">
+        <h2>Explore Categories</h2>
+        <div class="categories-container">
+            <div class="category">
+                <img src="/assets/electronic.jpeg" alt="Category 1" />
+                <p>Electronics</p>
+            </div>
+            <div class="category">
+                <img src="/assets/fashion.jpeg" alt="Category 2" />
+                <p>Fashion</p>
+            </div>
+            <div class="category">
+                <img src="/assets/life-scene.jpg" alt="Category 3" />
+                <p>Home & Living</p>
+            </div>
+        </div>
+    </section>
+</main>
 
 <%- include('partials/footer') %>

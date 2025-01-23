@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<!-- Header to manage cart data -->
+<header id="cart-header">
+    <nav id="cart-nav">
+        <ul id="cart-holder">
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/account">Your Account</a></li>
+            <li><a href="/cart">Cart</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Main cart section -->
+<main>
+    <!-- Cart table -->
+    <section id="cart-section">
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically rendered with EJS here -->
+                <tbody>
+                    <% if (cartItems && cartItems.length > 0) { %>
+                      <% cartItems.forEach(item => { %>
+                        <tr>
+                          <td><img src="<%= item.image %>" alt="<%= item.name %>"></td>
+                          <td><%= item.name %></td>
+                          <td>$<%= item.price %></td>
+                          <td>1</td>
+                        </tr>
+                      <% }) %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="4">No items in the cart.</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                  
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<!-- Summary section -->
+<section id="cart-summary">
+    <h2>Summary</h2>
+    <p>SubTotal: $##</p>
+    <button id="checkout" aria-label="Proceed to checkout">Checkout</button>
+</section>
+
+<%- include('partials/footer') %>

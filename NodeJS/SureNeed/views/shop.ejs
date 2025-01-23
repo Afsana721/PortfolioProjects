@@ -1,27 +1,29 @@
+<!-- Include header.ejs -->
 <%- include('partials/header') %>
 
-
-
-    <!--Shopping items-->
-    <section id="shop-container">
-        <h1>Shop Now</h1>
-        <ul id="item-list">
-            <!--placeholder for items-->
-            <% items.forEach( item=> { %>
-<!-- add item on the li by ejs from items.js  -->
-                 <!-- Add item dynamically using EJS -->
+<!-- Shopping items -->
+<section id="shop-container">
+    <h1>Shop Now</h1>
+    <ul id="item-list">
+        <!-- Dynamically render items from EJS -->
+        <% items.forEach(item => { %>
             <li>
                 <img src="<%= item.image %>" alt="<%= item.name %>">
                 <h3><%= item.name %></h3>
                 <p>Categories: <%= item.categories %></p>
                 <p>Description: <%= item.description %></p>
                 <p>Price: $<%= item.price %></p>
-                <button>Add To Cart</button>
+                <button type="button" onclick="addingItemToCart(event)" aria-label="Add <%= item.name %> to cart">Add To Cart</button>
+
             </li>
-                <% })%>
-        </ul>
+        <% }) %>
+    </ul>
+</section>
 
-    </section>
+<!-- Add a "Back to Home" button -->
+<section id="navigation-back">
+    <a href="/" class="back-to-home">Back to Home</a>
+</section>
 
-
-    <%- include('partials/footer') %>
+<!-- Include footer.ejs -->
+<%- include('partials/footer') %>

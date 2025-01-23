@@ -11,3 +11,28 @@
     <title>SureNeed</title>
 </head>
 <body>
+    <header id="site-header">
+        <div id="logo-section">
+            <img src="/assets/sureneed.png" alt="SureNeed Logo">
+            <span>SureNeed</span>
+        </div>
+        <nav id="nav-bar">
+            <ul id="nav-items">
+                <li><a href="/">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/categories">Categories</a></li>
+            </ul>
+            <form action="/search" method="GET">
+                <input type="text" name="q" placeholder="Search items ..">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <div id="user-options">
+                <a href="/signin"><i class="fas fa-user"></i> Sign In</a>
+                <a href="/cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count"><%= cartCount || 0 %></span>
+                </a>
+            </div>
+        </nav>
+    </header>
+    
