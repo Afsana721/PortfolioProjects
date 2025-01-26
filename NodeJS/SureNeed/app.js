@@ -11,7 +11,7 @@ const app = express();
 app.use(express.static('public')); // Serve static files from "public" folder
 app.use(express.urlencoded({ extended: true })); // Parse form data
 
-//adding Express JSON Middleware
+// Adding Express JSON Middleware
 app.use(express.json());
 
 // Use session to manage user cart data
@@ -22,15 +22,13 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-/* Middleware runs for every request before the routes
- Middleware to calculate cart count and make it available to all views*/
+/* Middleware to calculate cart count and make it available to all views */
 app.use((req, res, next) => {
-    // If the session cart exists, calculate its length; otherwise, set to 0
     const cart = req.session.cart || [];
+    console.log("Session Cart:", cart); // Debugging: Log the session cart
     res.locals.cartCount = cart.length; // Make cartCount available globally
-    next(); // Proceed to the next middleware/route
+    next();
 });
-
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -49,7 +47,7 @@ mongoose.connect(process.env.dbUrl)
             console.log("Items already exist in the database.");
         }
 
-        // 2. Routes setup
+        // Routes setup
         app.get('/', (req, res) => {
             res.render('index'); // Render the homepage
         });
@@ -72,18 +70,54 @@ mongoose.connect(process.env.dbUrl)
 
             console.log("Item added to cart:", req.session.cart);
 
-            // Send a success response
-            res.status(200).json({ message: "Item added to cart successfully." });
+            // Redirect to the cart page
+            res.redirect('/cart');
         });
 
         app.get('/cart', (req, res) => {
             const cartItems = req.session.cart || []; // Retrieve items from session cart
             res.render('cart', { cartItems }); // Pass cart items to cart.ejs
         });
-    })
+
+        app.get('/categories', (req, res) => {
+            res.render('categories', { categoryToShow: null });
+        });
+   })
     .catch((err) => console.log("Connection is not established", err));
 
-// 3. Listen to the server
-app.listen(3000, () => {
+
+
+// Search route
+app.get('/search', async (req, res) => {
+    const searchTerm = req.query.q;
+
+    if (!searchTerm) {
+        // Redirect to categories if no search term is provided
+        return res.redirect('/categories');
+    }
+
+    try {
+        // Define available categories
+        const categories = ['Electronics', 'Fashion', 'Home & Living'];
+
+        if (categories.includes(searchTerm)) {
+            // Render the categories page with only the relevant section
+            return res.render('categories', { categoryToShow: searchTerm });
+        } else {
+            // Fetch items that match the search term in their name
+            const items = await Item.find({ name: new RegExp(searchTerm, 'i') });
+            return res.render('categories', { items, category: 'Search Results', categoryToShow: null });
+        }
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).send('An error occurred during the search.');
+    }
+});
+
+
+// Start the server
+const PORT = process.env.PORT || 3000; 
+// Listen to the server
+app.listen(PORT, () => {
     console.log('Server is running on the port of 3000');
 });

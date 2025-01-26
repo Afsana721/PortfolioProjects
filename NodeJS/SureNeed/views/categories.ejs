@@ -1,0 +1,127 @@
+<%- include('partials/header') %>
+
+<h1>Categories</h1>
+
+<section class="categories-container">
+    <% if (!categoryToShow || categoryToShow === 'Electronics') { %>
+        <section class="category">
+            <header>
+                <h2>Electronics</h2>
+            </header>
+            <ul>
+                <li>
+                    <article>
+                        <img src="/assets/irons.jpeg" alt="Iron">
+                        <p>Iron</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/smartWatch.jpg" alt="Smart Watch">
+                        <p>Smart Watch</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/Mug.jpg" alt="Mug">
+                        <p>Mug</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/headPhone.jpg" alt="Headphone">
+                        <p>Headphone</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/hairStraighter.jpg" alt="Hair Straighter">
+                        <p>Hair Straighter</p>
+                    </article>
+                </li>
+            </ul>
+        </section>
+    <% } %>
+
+    <% if (!categoryToShow || categoryToShow === 'Fashion') { %>
+        <section class="category">
+            <header>
+                <h2>Fashion</h2>
+            </header>
+            <ul>
+                <li>
+                    <article>
+                        <img src="/assets/businessBag.jpg" alt="Business Bag">
+                        <p>Business Bag</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/NailItems.jpg" alt="Nail Items">
+                        <p>Nail Items</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/ShirtLadies.jpg" alt="Ladies Shirt">
+                        <p>Ladies Shirt</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/travelBag.jpg" alt="Travel Bag">
+                        <p>Travel Bag</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/WomenJewelry.jpg" alt="Women's Jewelry">
+                        <p>Women's Jewelry</p>
+                    </article>
+                </li>
+            </ul>
+        </section>
+    <% } %>
+
+    <% if (!categoryToShow || categoryToShow === 'Home & Living') { %>
+        <section class="category">
+            <header>
+                <h2>Home & Living</h2>
+            </header>
+            <ul>
+                <li>
+                    <article>
+                        <img src="/assets/flower_vase.jpeg" alt="Flower Vase">
+                        <p>Flower Vase</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/fruits_rack.jpeg" alt="Fruits Rack">
+                        <p>Fruits Rack</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/Kitchen_household.jpeg" alt="Kitchen Household">
+                        <p>Kitchen Household</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/livingRoom_mat.jpeg" alt="Living Room Mat">
+                        <p>Living Room Mat</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <img src="/assets/PrayerRug.jpg" alt="Prayer Rug">
+                        <p>Prayer Rug</p>
+                    </article>
+                </li>
+            </ul>
+        </section>
+    <% } %>
+</section>
+
+<%- include('partials/footer') %>
