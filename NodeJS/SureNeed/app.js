@@ -79,44 +79,43 @@ mongoose.connect(process.env.dbUrl)
             res.render('cart', { cartItems }); // Pass cart items to cart.ejs
         });
 
+        // Categories Route
         app.get('/categories', (req, res) => {
+            // Render the categories page with no specific category to show
             res.render('categories', { categoryToShow: null });
         });
-   })
+    })
     .catch((err) => console.log("Connection is not established", err));
 
 
 
-// Search route
-app.get('/search', async (req, res) => {
-    const searchTerm = req.query.q;
+// Search Route
+app.get('/search', (req, res) => {
+    const searchTerm = req.query.q?.toLowerCase(); // Get the search term from the query string, case-insensitive
 
     if (!searchTerm) {
-        // Redirect to categories if no search term is provided
+        // If no search term, redirect back to categories
         return res.redirect('/categories');
     }
 
-    try {
-        // Define available categories
-        const categories = ['Electronics', 'Fashion', 'Home & Living'];
+    // Predefined categories and their corresponding names
+    const categories = ['electronics', 'fashion', 'home & living'];
 
-        if (categories.includes(searchTerm)) {
-            // Render the categories page with only the relevant section
-            return res.render('categories', { categoryToShow: searchTerm });
-        } else {
-            // Fetch items that match the search term in their name
-            const items = await Item.find({ name: new RegExp(searchTerm, 'i') });
-            return res.render('categories', { items, category: 'Search Results', categoryToShow: null });
-        }
-    } catch (error) {
-        console.error('Error during search:', error);
-        res.status(500).send('An error occurred during the search.');
+    if (categories.includes(searchTerm)) {
+        // If search term matches a category, render that category
+        return res.render('categories', { categoryToShow: searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1) }); // Capitalize category
+    } else {
+        // If search term doesn't match, render "No items found"
+        return res.render('categories', { categoryToShow: 'No items found' });
     }
 });
 
 
+
+
+
 // Start the server
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 3000;
 // Listen to the server
 app.listen(PORT, () => {
     console.log('Server is running on the port of 3000');
