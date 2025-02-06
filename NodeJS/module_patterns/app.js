@@ -29,3 +29,36 @@ console.log(greet4); // gets an object by require
 greet4.greet(); 
 
 
+//require the function constructor, so it can create a new instance. 
+const Greet5 = require('./greet5.js');
+
+console.log(Greet5); // comes - [Function: Greetr], a function constructor
+
+const greetObj = new Greet5();
+
+console.log(greetObj); /* now it holds newly created object : 
+Greetr { greeting: 'Hello world! 5', greet: [Function (anonymous)] } */
+
+greetObj.greet();   //Can call greet() method from the object. 
+
+greetObj.greeting = 'Now changing text!';
+
+greetObj.greet();   //call greet() method from the object. 
+
+const greetObj2 = new Greet5();
+console.log(greetObj2);
+greetObj2.greet();
+greetObj2.greeting = "No Hello world!!!!";
+greetObj2.greet();
+
+const greetObj3 = new Greet5(); /*new instance, no reference. Not calling require, just
+creating new instance of the Greet5. */
+console.log(greetObj3);
+greetObj3.greet();
+
+
+//Revealing module
+const greet6 = require('./greet6.js');
+console.log(greet6);
+greet6.greet();
+
