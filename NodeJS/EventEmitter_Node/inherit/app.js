@@ -2,14 +2,14 @@
 const EventEmitter = require('events');
 const util = require('util');
 
-//create a funciton contructor to create new instance of object. 
+//create a function contructor to create new instance of object. 
 function Greetr() {
-    //create a String as greeting property that can add any instance  
+       //create a String as greeting property that can add any instance  
     this.greeting = 'Hello world!'; 
 };
 
-//use util core moduel to get inherits() function to build prototype chain.
-/* any object creates by the Greetr function constructor, also have access to the method
+//use util core module to get inherits() function to build prototype chain.
+/* any object created by the Greetr function constructor, also have access to the method
 and properties on the prototype property of EventEmitter.  */
 /* So any new object creates from Greetr, will also get all the EventEmitter methods and
 properties. */
@@ -21,12 +21,13 @@ Greetr.prototype.greet = function() {
     this.emit('greet');
 }
 
-// create a new instance object from Greeter function constructor
+// create a new instance object from Greeter function constructor.
 const greeter1 = new Greetr();
 
-//access properties from Greetr and EventEmitter 
+//access properties from Greetr and EventEmitter
 greeter1.on('greet', function(){
     console.log('Greeting something!!!');
 });
 
+// now call greet(). 
 greeter1.greet();
