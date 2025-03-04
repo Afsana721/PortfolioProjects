@@ -1,0 +1,5 @@
+/*change the font family for the text*/
+ body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+} 
