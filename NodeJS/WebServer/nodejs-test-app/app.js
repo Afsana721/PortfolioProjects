@@ -1,5 +1,19 @@
 //grab express 
 const express = require('express');
+//const bodyParser = require('body-parser');// object that can parse 
+
+//handle middleware
+//const urlencodeParser = bodyParser.urlencoded( { extended: false });
+
+//express gave this function.
+const urlencodeParser = express.urlencoded( { extended: false });
+
+//handle JSON data 
+//const jsonParser = bodyParser.json();
+
+// by express
+const jsonParser = express.json();
+
 
 //call the express function to gets some properties and methods.
 //so we can app, and this is a working app.  
@@ -27,10 +41,24 @@ app.get('/', function(req, res) {
    
 });
 
-//create a route with variable using params object.
+//create a route with a variable using params object.
 app.get('/person/:id', function(req, res) {
-    res.render('person', { ID: req.params.id } );
-})
+    res.render('person', { ID: req.params.id, n:req.query.qstr  } );
+});
+
+//Post request and parse the body by the middleware and grab data from form post
+app.post('/person', urlencodeParser, function(req, res) {
+    res.send('OK, Thank Your!');
+    console.log(req.body.firstname);
+    console.log(req.body.lastname);
+});
+
+//handle JSON data, jsonParser will handle getting that from request.
+app.post('/personjson', jsonParser, function(req, res) {
+    res.send('JSON data handled!');
+    console.log(req.body.firstname);
+    console.log(req.body.lastname);
+});
 
 //send Json data as response 
 app.get('/api', (req, res) => {

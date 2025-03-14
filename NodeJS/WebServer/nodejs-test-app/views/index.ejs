@@ -1,9 +1,29 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/assets/style.css" type="text/css" 
-        rel="stylesheet"/>
-    </head>
-    <body>
-        <h1>Hello World!!!.</h1>
-    </body>
+
+<head>
+    <link rel="stylesheet" href="/assets/style.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <h1>Hello World!!!.</h1>
+    <form action="/person" method="POST">
+        first name: <input type="text" id="firstname" name="firstname" /><br />
+        last name: <input type="text" id="lastname" name="lastname" /></br>
+        <input type="submit" value="submit" />
+    </form>
+
+    <script>
+        $.ajax({
+            type: "POST",
+            url: "/personjson",
+            data: JSON.stringify({
+                firstname: 'Khan', 
+                lastname: 'Asef'}), 
+            dataType: 'json',
+            contentType: 'application/json'
+        });
+    </script>
+</body>
+
 </html>
