@@ -1,3 +1,5 @@
+/* color: https://www.color-hex.com/color-palette/1056830*/
+
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
@@ -109,6 +111,69 @@ button {
     top: -10px;
     right: -10px;
 }
+
+/* index.html page: */
+/* use id - "home-banner" to style welcome section element
+    display: flex; to make it flexible for alignment.
+   Use justify-content: center; to align it horizontally.
+   Stack elements vertically.
+   Use align-items: center; if you need vertical alignment.
+   Set text-align: center; to align the content inside the section.*/  
+#home-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+/* home-banner's h1 text style */
+#home-banner h1 {
+    color: #4599b9;
+    font-family: "Helvetica", "Arial", sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/*Hover effect */
+#home-banner h1:hover {
+    color: #3664b1; /* Darker shade of blue */
+    transform: scale(1.05); /* Slightly enlarge */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* Soft shadow effect */
+    transition: all 0.3s ease-in-out; /* Smooth animation */
+}
+
+#home-banner p {
+    color:#21368f; 
+    font-family: sans-serif;
+    font-size: 1.25rem;
+    font-weight: normal;
+    margin-top: 2px;
+}
+
+/* Style for the 'Start Shopping' link */
+#home-banner a {
+    color: #363991; /* Dark blue for readability */
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none; /* Removes underline */
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    background-color: hsl(206, 21%, 94%); /* Light background for contrast */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect */
+#home-banner a:hover {
+    background-color: #21368f; /* Darker blue on hover */
+    color: white;
+    transform: scale(1.05); /* Slight enlargement */
+    text-decoration: none;
+}
+
 
 /* Categories */
 /* Highlighted Categories Section */
