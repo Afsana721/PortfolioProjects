@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+  <section id="login">
+    <h1>Login</h1>
+    <form action="login" method="POST">
+        <!-- Your form fields here -->
+         <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Type Your Username">
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Type Your Email">
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Type Your Password">
+        <a href="#">Forgot Passwrd?</a>
+        <button type="submit">Login</button>
+      </form>
+      <p>Or Sign up using Register page.</p>
+      <a href="/register">Sign up</a>
+  </section>
+    
+
+<%- include('partials/footer') %>

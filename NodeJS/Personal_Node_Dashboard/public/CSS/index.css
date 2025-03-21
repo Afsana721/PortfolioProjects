@@ -1,0 +1,72 @@
+/* Color uses : https://colorhunt.co/ */
+/* Navbar container */
+
+#nav-bar {
+    display: flex;  /* Makes the nav section a flex container */
+    justify-content: space-between;  /* Distributes items evenly with space between them */
+    align-items: center; /* Aligns items vertically in the center */
+    background-color: #eee0e0;  /* Light grey background color */
+    padding: 10px 20px; /* Adds padding inside the navbar */
+}
+
+/* Navigation list */
+#nav-bar ul {
+    list-style: none;  /* Hide bullet point*/
+    display: flex;
+    gap: 20px; /* gap on the ul children*/
+    padding: 0;
+}
+
+/* Navigation items */
+#nav-bar li {
+    display: inline-block; /* Allows elements to sit side by side (inline) but 
+    still behave like block elements.*/
+   
+}
+
+/* Navigation links */
+#nav-bar a {
+    text-decoration: none;
+    color:  #7D0A0A;;
+    font-weight: bold;
+    font-size: 24px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: oblique;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#nav-bar a:hover {
+    background: #ddd;
+}
+
+/* Logo Image */
+#nav-bar li img {
+    height: 60px;
+    width: auto;
+}
+
+/* Motto logo styling */
+#motto {
+    display: flex;
+    flex-direction: column; /* Stack image and text */
+    justify-content: center; /* Center contents */
+    align-items: center; /* Align everything in center */
+    text-align: center;
+    height: 200px; /* Adjust as needed */
+}
+
+#motto h1 {
+    text-align: center; /* Center text */
+    color: #7D0A0A;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+    font-style: oblique;
+}
+
+#motto img {
+    height: 50px;
+    width: auto;
+}
