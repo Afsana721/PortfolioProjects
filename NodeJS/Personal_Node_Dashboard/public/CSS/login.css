@@ -1,3 +1,69 @@
-body { 
-    font-size: large;
-}
+/* Login page CSS style */
+
+body {
+    background-color: #f0f4ff; /* soft background */
+    font-family: 'Segoe UI', sans-serif;
+    color: #5C2E7E; /* dark tone */
+    font-size: 18px;
+  }
+  
+  #login {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border: 2px solid #7D0A0A;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: left;
+  }
+  
+  #login h1 {
+    text-align: center;
+    color: #7D0A0A;
+  }
+  
+  #login label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #7D0A0A;
+  }
+  
+  #login input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  #login a {
+    display: block;
+    margin-top: 10px;
+    color: #003092;
+    text-decoration: none;
+    font-style: oblique;
+    font-weight: bold;
+  }
+  
+  #login button {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #0074B7;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #login p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    color: black;
+  }
+
+  section #singup { 
+    color: #0D7C66;
+  }

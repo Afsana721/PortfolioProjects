@@ -1,3 +1,65 @@
-body { 
-    font-size: large;
+/* register.ejs page CSS style */ 
+
+body {
+    background-color: #f3f8ff; /* Soft background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    color: #7D0A0A; /* Dark text */
+}
+
+#form_box {
+    width: 400px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #ffffff; /* Form background */
+    border: 1px solid #7D0A0A;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#intro h2 {
+    text-align: center;
+    color: #7D0A0A;
+    margin-bottom: 20px;
+}
+
+#sub_from h3 {
+    text-align: center;
+    color: #EB5B00;
+    font-weight: 500;
+    font-style: oblique;
+    margin-bottom: 30px;
+}
+
+form label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #0077b6; /* Picked from colorhunt */
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #023e8a;
 }
