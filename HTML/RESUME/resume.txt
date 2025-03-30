@@ -1,0 +1,59 @@
+Afsana Afroze
+Austin, Texas | Phone: 512-988-4578 | Email: afsanaafroze21@gmail.com
+LinkedIn: linkedin.com/in/afsanausa | 
+GitHub: https://github.com/Afsana721/PortfolioProjects 
+________________________________________
+Objective
+Aspiring software developer with hands-on experience in full-stack development and a strong foundation in problem-solving, teamwork, and customer-oriented solutions. Seeking an entry-level role to leverage technical expertise and business acumen in delivering innovative and scalable software solutions.
+________________________________________
+Technical Skills
+•	Programming Languages: Java, JavaScript
+•	Web Development: HTML, CSS, Node.js, React.js, NPM, EJS
+•	Databases: MySQL, PostgreSQL, MongoDB, SQL
+•	Tools & Platforms: Git, GitHub, Visual Studio Code, Eclipse, Maven
+•	Methodologies: Agile Development, Test-Driven Development (TDD), CI/CD
+________________________________________
+Experience
+Virtusa Corporation (Client: Google) – Southborough, MA
+Associate Consultant-QA (02/2022 – 05/2022)
+•	Managed release processes by coordinating staging builds, pre-production testing, and deployment rollouts, ensuring seamless software delivery.
+•	Identified and resolved critical bugs in staging and UAT (User Acceptance Testing) environments, creating manual patches when automation failed.
+•	Conducted beta and canary testing to validate software stability before full production rollout.
+•	Collaborated with cross-functional teams to troubleshoot deployment failures, rollback issues, and performance bottlenecks.
+•	Utilized release management tools (RAPID, TAB) to track binary release candidates, ensuring the right versions were pushed.
+•	Communicated updates on build status, errors, and test results during daily standups and documented key findings in snippet reports.
+Businesslink Computers Ltd. – Dhaka, Bangladesh
+Director of Administration (2010 – 2024)
+•	Led product research and technical solutions development, optimizing customer adoption of emerging technologies.
+•	Implemented and managed system upgrades, diagnostics, and IT infrastructure enhancements, improving operational efficiency.
+•	Directed hardware and RMA service teams, troubleshooting complex technical issues and ensuring seamless system integration.
+•	Developed customer-focused technical strategies, improving retention and streamlining product lifecycle management.
+•	Oversaw financial operations, including sales analytics, revenue tracking, and performance optimization, aligning technology investments with business goals.
+•	Analyzed market trends and customer feedback to drive data-informed decision-making in product selection and service enhancements.________________________________________
+Projects
+•	JavaScript Fundamentals
+o	Variable Scopes & Closures: Built interactive UI projects demonstrating var, let, const, and closures in JavaScript with real-time examples.
+•	jQuery - Dynamic DOM Manipulation
+o	Created an interactive UI project showcasing element selection, content updates, event handling, and styling with jQuery.
+•	Node.js - Shopping Cart Application
+o	Developed a full-stack shopping cart using Node.js, Express, MongoDB, and Passport.js for authentication.
+•	Recipe Sphere (Capstone Project)
+o	Built a recipe-sharing web app with user authentication, external API integration, image uploads, and Mocha/Chai testing.
+•	________________________________________
+Education
+Masters in Management (Business)
+National University of Bangladesh
+Bachelor of Commerce
+University of Dhaka, Bangladesh
+Full Stack Software Development Certificate
+Austin Community College
+________________________________________
+Awards & Certifications
+•	Full Stack Software Development Bootcamp – Austin Community College
+________________________________________
+Leadership & Activities
+•	Member: Bangladesh Computer Association
+•	Volunteer: Businesslink Computers Ltd. – Mentored youth in technical and professional skill development.
+________________________________________
+References: Available upon request.
+
