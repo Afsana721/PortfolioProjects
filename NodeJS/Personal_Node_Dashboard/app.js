@@ -9,6 +9,7 @@ const connectMongo = require("connect-mongo");
 const homeRoutes = require('./routes/homeRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const authRoutes = require('./routes/authRoutes');
+const forgotRouters = require('./routes/')
 
 //MongoDB connection
 const connectDB = require('./models/db.js');
