@@ -4,8 +4,8 @@ const { userdata, notePost } = require('../models/userModel');
 const getRegisterPage = function (req, res) {
     const CSS = "/CSS/register.css";
     res.render('register', { CSS: CSS });
-
 };
+
 //define a getLoginPage function as a callback to attached login pase as request.
 const getLoginPage = function (req, res) {
     const CSS = "/CSS/login.css";
@@ -21,7 +21,9 @@ const getUserData = async function (req, res) {
     };
     const user = new userdata(formdata);
     await user.save();
+    res.redirect('login');
 };
+
 
 //Getting user login data to match them 
 const getUserLoginData = async function (req, res) {

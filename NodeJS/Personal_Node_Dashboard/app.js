@@ -9,7 +9,7 @@ const connectMongo = require("connect-mongo");
 const homeRoutes = require('./routes/homeRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const authRoutes = require('./routes/authRoutes');
-const forgotRouters = require('./routes/')
+const forgotRouters = require('./routes/forgotRoutes.js')
 
 //MongoDB connection
 const connectDB = require('./models/db.js');
@@ -44,6 +44,7 @@ app.use(session(
 app.use('/', homeRoutes);
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
+app.use('/', forgotRouters);
 
 
 //See README #application-process
