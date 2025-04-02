@@ -5,12 +5,12 @@
     <form action="login" method="POST">
       <!-- Your form fields here -->
       <label for="username">Username</label>
-      <input type="text" name="username" placeholder="Type Your Username">
+      <input type="text" name="username" value="<%= username || '' %>" placeholder="Type Your Username">
       <label for="email">Email</label>
-      <input type="email" name="email" placeholder="Type Your Email">
+      <input type="email" name="email" value="<%= email || '' %>" placeholder="Type Your Email">
       <label for="password">Password</label>
-      <input type="password" name="password" placeholder="Type Your Password">
-      <a href="#">Forgot Passwrd?</a>
+      <input type="password" name="password" value="<%= password || '' %>" placeholder="Type Your Password">
+      <a href="/forgot">Forgot Password?</a>
       <button type="submit">Login</button>
     </form>
     <p>Or Sign up using Register page.</p>

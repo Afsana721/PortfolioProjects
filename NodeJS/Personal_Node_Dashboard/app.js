@@ -46,7 +46,12 @@ app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', forgotRouters);
 
+//handle wrong url 
+app.use((req, res) => {
+    res.status(404).send("<h1>404!!! Not found, please use a valid URL.</h1>");
+  });
 
+  
 //See README #application-process
 app.listen(port, function () {
     console.log(`Server listen on the PORT ${port}`);

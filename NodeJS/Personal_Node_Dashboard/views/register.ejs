@@ -9,10 +9,10 @@
             <section>
                 <form action="/register" method="post">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required><br><br>
+                    <input type="text" name="username" value="<%= username || '' %>" required /><br><br>
 
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required><br><br>
+                    <input type="email" name="email" value="<%= email || '' %>" required /><br><br>
 
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required><br><br>

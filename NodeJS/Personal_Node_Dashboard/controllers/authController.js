@@ -3,25 +3,45 @@ const { userdata, notePost } = require('../models/userModel');
 //define a getRegisterPage function as a callback 
 const getRegisterPage = function (req, res) {
     const CSS = "/CSS/register.css";
-    res.render('register', { CSS: CSS });
+    res.render('register', { CSS: CSS, username: '', email: '' });
 };
 
 //define a getLoginPage function as a callback to attached login pase as request.
 const getLoginPage = function (req, res) {
     const CSS = "/CSS/login.css";
-    res.render('login', { CSS: CSS });
+    res.render('login', { CSS: '/CSS/login.css', username: '', email: '', password: '' });
 }
 
-//get user data from form submission on the req.body 
+// Save user credentials to the database. Takes req and res objects.
 const getUserData = async function (req, res) {
-    formdata = {
+    // Create an object to store user input from the req object
+    const formdata = {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
     };
-    const user = new userdata(formdata);
-    await user.save();
-    res.redirect('login');
+
+    // Use try-catch to handle asynchronous execution; if an error occurs, catch it
+    try {
+        // Check if a user already exists by email (email should be unique)
+        const userExist = await userdata.findOne({ email: req.body.email });
+
+        // If the user exists, update only the password (for forgot password handling)
+        if (userExist) {
+            userExist.password = req.body.password;
+            await userExist.save(); // Save updated user
+        } else {
+            // If the user is new, create and save new user data
+            const user = new userdata(formdata);
+            await user.save();
+        }
+
+        // Redirect to login page after successful registration or password reset
+        res.redirect('/login');
+    } catch (error) {
+        console.log('Error:', error);
+        res.status(500).send('Registration failed');
+    }
 };
 
 
@@ -99,6 +119,22 @@ const userEditNote = async function (req, res) {
     }
 };
 
+// Logout function
+const getLogout = async function (req, res) {
+    try {
+        await req.session.destroy();
+        res.render('index', { CSS: '/CSS/index.css' }) // or '/login' depending on your app flow
+    } catch (error) {
+        console.log('ERROR : ' + error);
+    }
+};
+
+//Wrong URL handler 
+// const getWrongUrl = async function( req, res ) {
+//     res.status(404).send('Page not found!');
+// }
+
+
 
 module.exports = {
     getRegisterPage,
@@ -106,5 +142,6 @@ module.exports = {
     getUserData,
     getUserPostData,
     getUserLoginData,
-    userEditNote
+    userEditNote,
+    getLogout
 };
