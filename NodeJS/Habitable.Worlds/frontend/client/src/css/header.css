@@ -1,0 +1,75 @@
+/* Header.jsx CSS styles */
+
+#header nav {
+    display: flex; 
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    background-color: #98a74d;
+}
+
+/* nav alignment */
+.nav { 
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* nav text and nav image logo styles */
+#logo-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 2rem;
+    font-weight: 900;
+    font-style: oblique;
+    color: #2e3703;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    word-spacing: 1px;
+    letter-spacing: -0.3px;
+}
+
+#logo-text img {
+    width: 40px;
+    height: auto;
+    margin: 0px;
+}
+
+/* all li items - from second one styles */
+#items {
+    list-style: none;
+    display: flex;
+    gap: 7rem;
+    align-items: center;
+    font-size: 35px;
+    font-weight: bold;
+    color: #111400;
+}
+
+/* cursor pointer except first li */
+#items li:not(:first-child) {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#items li:not(:first-child):hover {
+    color: #e5e3dc;
+    text-decoration: underline;
+}
+
+/* rotating images styles  */
+#rotating-img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover; /* keep image clean, no stretching */
+    margin-top: 1.5rem; /* space below LandingPage image */
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease-in-out;
+}
+
+#rotating-img:hover {
+    transform: scale(1.01);
+}

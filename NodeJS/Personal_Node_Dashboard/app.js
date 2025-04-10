@@ -30,6 +30,8 @@ app.use(express.static('public'));
 
 //handle url encoded middleware
 app.use(express.urlencoded({ extended: true }));
+//handle JSON data 
+app.use(express.json());
 
 //session middleware to handle session user sensitive data 
 app.use(session(
@@ -56,3 +58,6 @@ app.use((req, res) => {
 app.listen(port, function () {
     console.log(`Server listen on the PORT ${port}`);
 });
+
+
+module.exports = app;

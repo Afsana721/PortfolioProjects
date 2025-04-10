@@ -1,0 +1,16 @@
+/* footer CSS Styles*/
+#main-footer {
+    background-color: #f0dede;
+    text-align: center;
+    padding: 1.2rem 0;
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 3rem;
+    border-top: 2px solid #ccc;
+  }
+  
+  #main-footer span {
+    font-weight: bold;
+    color: #7D0A0A;
+  }
+  

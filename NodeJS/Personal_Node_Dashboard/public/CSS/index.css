@@ -1,28 +1,72 @@
-/* Color uses : https://colorhunt.co/ */
-/* Navbar container */
-
-
-
-/* Motto logo styling */
+/* Motto section */
 #motto {
     display: flex;
-    flex-direction: column; /* Stack image and text */
-    justify-content: center; /* Center contents */
-    align-items: center; /* Align everything in center */
-    text-align: center;
-    height: 200px; /* Adjust as needed */
-}
-
-#motto h1 {
-    text-align: center; /* Center text */
-    color: #7D0A0A;
-    font-size: 30px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: bolder;
-    font-style: oblique;
-}
-
-#motto img {
-    height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0.3rem 0;
+    margin: 0;
+  }
+  
+  #motto img {
+    height: 28px;
     width: auto;
-}
+  }
+  
+  #motto h1 {
+    font-size: 1.1rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: bold;
+    color: #7D0A0A;
+    font-style: oblique;
+  }
+  
+  /* Note image styling */
+  .note-img {
+    width: 100%;           /* Wider */
+    height: 250px;         /* Set fixed shorter height */
+    object-fit: cover;     /* Ensures image doesn't stretch */
+    margin: 2rem auto 1rem;
+    display: block;
+    border-radius: 12px;
+  }
+  
+  /* Main note section */
+  #main_topics {
+    padding: 1.5rem;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  #main_topics h1 {
+    font-size: 1.7rem;
+    color: #7D0A0A;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  
+  #main_topics h3 {
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111;
+  }
+  
+  #main_topics p {
+    text-align: justify;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+  }
+  
+  #main_topics a {
+    display: block;
+    text-align: center;
+    margin-top: 1.2rem;
+    color: blue;
+    font-weight: bold;
+    text-decoration: underline;
+  }

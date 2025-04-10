@@ -20,7 +20,6 @@ const getUserData = async function (req, res) {
         email: req.body.email,
         password: req.body.password
     };
-
     // Use try-catch to handle asynchronous execution; if an error occurs, catch it
     try {
         // Check if a user already exists by email (email should be unique)

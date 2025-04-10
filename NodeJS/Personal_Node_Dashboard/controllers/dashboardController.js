@@ -1,6 +1,6 @@
 const multer = require('multer');
 const { userdata, notePost } = require('../models/userModel');
-const { read } = require('fs');
+
 
 // Setup multer storage config
 const storage = multer.diskStorage({
@@ -59,14 +59,13 @@ const getEditData = async function (req, res) {
         description: req.body.description,
         image: req.file ? req.file.filename : req.body.existingImage
     };
-    console.log(req.body, req.file, req.query)
-    console.log(editData);
+    //console.log(req.body, req.file, req.query)
+    //console.log(editData);
     const queryId = req.body.id;
-    console.log(queryId);
-
+    //console.log(queryId);
     try {
         await notePost.findByIdAndUpdate(queryId, editData);
-        //res.redirect('/dashboard?id=' + queryId); // ✅ Correct redirect
+        //res.redirect('/dashboard?id=' + queryId); 
         res.redirect('/dashboard');
     } catch (error) {
         console.log("ERROR : " + error);
