@@ -1,5 +1,6 @@
 //import images and react useState hook
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import pic1 from '../assets/NaturePic_1.jpeg';
 import pic2 from '../assets/NaturePic_2.jpeg';
 import pic3 from '../assets/NaturePic_3.jpeg';
@@ -23,43 +24,45 @@ const images = {
 };
 
 function Header() {
- //Create an Array from images object 
- const imageList = Object.values(images);
+  //Create an Array from images object 
+  const imageList = Object.values(images);
 
- //Use useState hook and setup current image index from imageList
- const [ imageIndex , setImageIndex ] = useState(0);
+  //Use useState hook and setup current image index from imageList
+  const [imageIndex, setImageIndex] = useState(0);
 
- //handler to handle images 
- const handleClickImageChange = function() {
-//set current index and increase with 1
-    setImageIndex(function(current) {
+  //handler to handle images 
+  const handleClickImageChange = function () {
+    //set current index and increase with 1
+    setImageIndex(function (current) {
       return (current + 1) % imageList.length;
     });
- }
- return (
-  <section id="header">
-  <nav className="nav">
-    <ul id="items">
-    <li id="logo-text">
-      Nature Conservancy{/* no space here */}
-      <img src={LogoPic9} alt="logo" />
-    </li>
-      <li>Home</li>
-      <li>Explore</li>
-      <li>Research</li>
-      <li>Login & Profile</li>
-      <li>About & Contact</li>
-    </ul>
-  </nav>
+  }
+  return (
+    <section id="header">
+      <nav className="nav">
+        <ul id="items">
+          <li id="logo-text">
+            Nature Conservancy{/* no space here */}
+            <img src={LogoPic9} alt="logo" />
+          </li>
+          <li><NavLink to="/">Home</NavLink></li>
+          <li><NavLink to="/Register">Register</NavLink></li>
+          <li><NavLink to="/LoginForm">Login</NavLink></li>
+          <li><NavLink to="/UserProfile">User Profile</NavLink></li>
+          <li><NavLink to="/Research">Research</NavLink></li>
+          <li><NavLink to="/Explore">Explore</NavLink></li>
+          <li><NavLink to="/AboutPage">About</NavLink></li>
+        </ul>
+      </nav>
 
-  <img
-    id="rotating-img"
-    src={imageList[imageIndex]}
-    alt="Rotating nature scene"
-    onClick={handleClickImageChange}
-  />
-</section>
-);
+      <img
+        id="rotating-img"
+        src={imageList[imageIndex]}
+        alt="Rotating nature scene"
+        onClick={handleClickImageChange}
+      />
+    </section>
+  );
 }
 
 export default Header;

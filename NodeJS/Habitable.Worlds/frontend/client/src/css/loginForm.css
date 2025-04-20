@@ -1,0 +1,78 @@
+/* -----------------------------------
+   Login Page Styles
+----------------------------------- */
+.loginSce {
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #f4f7f5;
+    border: 4px solid #e8eee7;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* -----------------------------------
+     Login Heading Style
+  ----------------------------------- */
+  .loginSce h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #264d2c;
+    font-family: 'Georgia', serif;
+  }
+  
+  /* -----------------------------------
+     Form Section Styling
+  ----------------------------------- */
+  #formSec form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #formSec label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #3a4a00;
+    font-weight: 600;
+  }
+  
+  #formSec input {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  #formSec button {
+    padding: 0.75rem;
+    background-color: #4b5a01;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #formSec button:hover {
+    background-color: #3e4700;
+  }
+  
+  /* -----------------------------------
+     Forgot Password Link Styling
+  ----------------------------------- */
+  .forgot {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #043219;
+    text-decoration: underline;
+    margin-bottom: 2rem;
+    display: block;
+  }
+  
+  .forgot:hover {
+    color: #2c3600;
+  }

@@ -21,7 +21,7 @@
 #logo-text {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 2px;
     font-size: 2rem;
     font-weight: 900;
     font-style: oblique;
@@ -41,9 +41,9 @@
 #items {
     list-style: none;
     display: flex;
-    gap: 7rem;
+    gap: 3rem;
     align-items: center;
-    font-size: 35px;
+    font-size: 19px;
     font-weight: bold;
     color: #111400;
 }
@@ -62,7 +62,7 @@
 /* rotating images styles  */
 #rotating-img {
     width: 100%;
-    height: 600px;
+    height: 300px;
     object-fit: cover; /* keep image clean, no stretching */
     margin-top: 1.5rem; /* space below LandingPage image */
     border-radius: 10px;
