@@ -27,7 +27,7 @@ const noteSchema = new Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 8000
+        maxlength: 8000
 
     },
     image: {

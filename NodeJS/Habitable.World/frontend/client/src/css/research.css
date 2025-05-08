@@ -1,0 +1,151 @@
+/* === Reset and global styles === */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+}
+
+/* === Main Research section wrapper === */
+#main {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* allow vertical scroll */
+  padding-bottom: 4rem;
+}
+
+/* === Background image === */
+#backImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* === Soft overlay on background === */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.85;
+  z-index: 1;
+}
+
+/* === Header section (title + source + search bar) aligned left === */
+#heading {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  margin-left: 20%;
+  margin-top: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* === Title text === */
+#title_text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0a3e1d;
+  margin: 0;
+}
+
+/* === Source link === */
+#heading a {
+  font-size: 1rem;
+  color: #0a4a0f;
+  text-decoration: underline;
+  align-self: flex-end;
+}
+
+/* === Search bar aligned next to heading === */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto 1rem;
+  max-width: 600px;
+  width: 100%;
+  gap: 8px;
+  z-index: 2;
+  position: relative;
+}
+
+.search-bar input {
+  width: 300px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.search-bar img {
+  width: 24px;
+  height: 24px;
+}
+
+/* === Container for NASA cards === */
+.research-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 3rem auto;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  position: relative;
+  z-index: 2;
+}
+
+/* === Individual NASA data card === */
+.nasaData {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  overflow: hidden;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.nasaData:hover {
+  transform: scale(1.03);
+}
+
+.nasaData img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.nasaData h2 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  color: #003c2f;
+}
+
+.nasaData p {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.4;
+}
