@@ -25,7 +25,8 @@ const scrollToProgramming = () => {
                     educational, and business function. Each application is designed to assist
                     end-users in accomplishing a variety of tasks, which may be related to
                     productivity, creativity, or communication.
-                    <a href="https://www.geeksforgeeks.org/what-is-application-software/" target='_blank'>info</a></p>
+                    <a href="https://www.geeksforgeeks.org/what-is-application-software/" 
+                    target='_blank' rel="noreferrer">info</a></p>
             </header>
 
             <section>
@@ -35,7 +36,8 @@ const scrollToProgramming = () => {
                     users. Unlike system software, which manages and operates computer hardware,
                     application software helps users accomplish particular activities, such as word
                     processing, data management, or graphic design.
-                    <a href="https://en.wikipedia.org/wiki/Application_software" target='_blank'>
+                    <a href="https://en.wikipedia.org/wiki/Application_software" target='_blank'
+                        rel="noreferrer">
                         info</a></p>
             <button onClick={scrollToProgramming}>Programming Scection</button>
             </section>
@@ -48,7 +50,7 @@ const scrollToProgramming = () => {
                     are learned and processed, particularly in the areas of language processing and
                     logical reasoning.
                     <a href="https://www.weforum.org/stories/2016/01/how-computers-could-mimic-brains/"
-                        target='_blank'>info</a></p>
+                        target='_blank' rel="noreferrer">info</a></p>
             </section>
 
             <section ref= {programmingRef}>
@@ -60,7 +62,7 @@ const scrollToProgramming = () => {
                     user expressions by providing a structure for storing and processing information, ultimately
                     allowing the program to respond to user input and perform actions based on that input.
                     <a href="https://www.britannica.com/technology/computer-programming-language"
-                        target='_blank'>info</a></p>
+                        target='_blank' rel="noreferrer">info</a></p>
             </section>
 
             <section>
@@ -72,7 +74,8 @@ const scrollToProgramming = () => {
                     allowing the computer to access it quickly. Memory is crucial because it allows the
                     computer to store data and instructions for immediate use, facilitating the processing
                     of information by the CPU.
-                    <a href="https://www.geeksforgeeks.org/computer-memory/" target='_blank'>info</a></p>
+                    <a href="https://www.geeksforgeeks.org/computer-memory/" target='_blank'
+                        rel="noreferrer">info</a></p>
             </section>
 
             <section>
@@ -86,7 +89,7 @@ const scrollToProgramming = () => {
                     interaction. Today, HCI encompasses a wide range of interactions, including mobile
                     devices, virtual reality, and artificial intelligence.
                     <a href="https://en.wikipedia.org/wiki/Human%E2%80%93computer_interaction"
-                        target='_blank'>info</a></p>
+                        target='_blank' rel="noreferrer">info</a></p>
             </section>
         </main>
     )

@@ -103,5 +103,6 @@ module.exports = {
     saveUserPostData,
     getUserPostData,
     getUserEditPostData,
-    deleteUserPostData
+    deleteUserPostData,
+    upload
 };

@@ -11,7 +11,6 @@ function Research() {
     // NASA API data state
     const [nasaRequestData, setNasaRequestData] = useState([]);
 
-
     // Handle search input change
     const handleSearchBarData = (event) => {
         setSearchBarInput(event.target.value);
@@ -32,9 +31,6 @@ function Research() {
             console.error('Error fetching NASA data:', error);
         }
     };
-
-
-
     return (
         <section id="main">
             <img id="backImg" src={research_back} alt="background" />
@@ -48,7 +44,6 @@ function Research() {
                     </a>
                 </p>
             </section>
-
             {/* NASA API section */}
             <section className="search-section">
                 <div className="search-bar">
@@ -72,8 +67,6 @@ function Research() {
                     ))}
                 </section>
             </section>
-
-
         </section>
     );
 }

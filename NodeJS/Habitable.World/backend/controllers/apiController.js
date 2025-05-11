@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+//Get Api data for Research.jsx 
 const getNasaApiData = async function (req, res) {
   try {
     const search = req.body.query || 'earth';
@@ -13,8 +14,8 @@ const getNasaApiData = async function (req, res) {
   }
 };
 
+//Get images for Explore.jsx
 //Get Nasa Api data and send to frontend to the handler function.
-
 const getApiNasaData = async function (req, res) {
   //Use req object to get request url and query to fetch data from network.
   const search = req.query.query;    //get what title, and what request from frontend
@@ -25,7 +26,10 @@ const getApiNasaData = async function (req, res) {
     });
     //take first index nasa data from items by slice method.
     const data = response.data.collection.items.slice(0, 1);
-    res.status(200).json(data);
+    const item = data[0];
+    const image = item?.links?.[0]?.href || '';
+    //console.log(image);
+    res.status(200).json({ ...item, image });
   } catch (error) {
     return res.status(500).json({
       message: "Server Error. Please try again."
@@ -34,27 +38,27 @@ const getApiNasaData = async function (req, res) {
 };
 
 //Get GBIF Api data and send to frontend to the handler function.
-
-const getGbifNasaData = async function (req, res) {
-  //Use req object to get request url and query to fetch data from network.
-  const search = req.query.query;    //get what title, and what request from frontend
-  //Store response 
+const getGbifData = async function (req, res) {
+  const search = req.query.query;
+  if (!search) {
+    return res.status(400).json({ error: "Query string is required" });
+  }
   try {
     const response = await axios.get('https://api.gbif.org/v1/occurrence/search', {
       params: { q: search }
     });
-    //take first index nasa data from items by slice method.
-    const data = response.data.collection.items.slice(0, 1);
-    res.status(200).json(data);
+    const data = response.data.results.slice(0, 1);
+    const item = data[0];
+    const image = item?.media?.[0]?.identifier || '';
+    //console.log(image);
+    res.status(200).json({ ...item, image });
   } catch (error) {
-    return res.status(500).json({
-      message: "Server Error. Please try again."
-    })
+    return res.status(500).json({ message: "Server Error. Please try again." });
   }
 };
 
 module.exports = {
   getNasaApiData,
   getApiNasaData,
-  getGbifNasaData
+  getGbifData
 };

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { saveUserPostData, getUserPostData, getUserEditPostData, deleteUserPostData } =
+const { saveUserPostData, getUserPostData, getUserEditPostData, deleteUserPostData, upload } =
     require("../controllers/userProfileController.js");
 
 

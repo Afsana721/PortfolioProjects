@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import '../css/userProfile.css';
 import axios from 'axios';
+import { useCallback } from 'react';
 
 function UserProfile({ userData }) {
 
@@ -36,7 +37,7 @@ function UserProfile({ userData }) {
 
     try {
       // Send the post to server to save it in DB
-      const response = await axios.post('http://localhost:5000/UserProfile', formData);
+      await axios.post('http://localhost:5000/UserProfile', formData);
     } catch (error) {
       console.log("Error : ", error);
     }
@@ -46,23 +47,27 @@ function UserProfile({ userData }) {
   const [posts, setPost] = useState([]);
 
   // Create function to get posts from DB using query params based on userPost
-  const getPostFromServer = async () => {
+  const getPostFromServer = useCallback(async () => {
     try {
-      const userId = userData._id;  // Extract userId
-
+      const userId = userData._id;
       const response = await axios.get(`http://localhost:5000/UserProfile?userId=${userId}`);
-      setPost(response.data);  // Save posts in state
+      setPost(response.data);
     } catch (error) {
       console.log("Error:", error);
     }
-  };
+  }, [userData]);
+
 
   //user useEffect to call funciton after first render 
   useEffect(() => {
-    if (userData && userData._id) {
-      getPostFromServer();
-    }
-  }, [userData]);
+    const fetchData = async () => {
+      if (userData && userData._id) {
+        await getPostFromServer();
+      }
+    };
+    fetchData();
+  }, [userData, getPostFromServer]);
+
 
 
   /* Edit post data - so track which post is being edited by state, so when post edite it will store in editPost by id*/
