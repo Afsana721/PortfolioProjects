@@ -1,0 +1,102 @@
+/* About page CSS styles */
+
+/* === About Page Layout === */
+/* === Main Container === */
+.about {
+  max-width: 960px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* === Header Section === */
+#head {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+#head h1 {
+  font-size: 1.8rem;
+  color: #0a3d1a;
+  margin-bottom: 1rem;
+}
+
+#head img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+/* === General Section Styling === */
+#technology,
+#programming,
+#language,
+#data,
+#human_computer {
+  margin-bottom: 3rem;
+}
+
+/* === Section Headings === */
+#technology h2,
+#programming h2,
+#language h2,
+#data h2,
+#human_computer h2 {
+  font-size: 1.5rem;
+  color: #104911;
+  margin-bottom: 1rem;
+}
+
+/* === Paragraph Text === */
+#technology p,
+#programming p,
+#language p,
+#data p,
+#human_computer p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* === Section Images === */
+#technology img,
+#programming img,
+#language img,
+#data img,
+#human_computer img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.2rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* === Links === */
+a {
+  color: #0056cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* === Button in Technology Section === */
+#technology button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #0a662e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#technology button:hover {
+  background-color: #0c7d38;
+}

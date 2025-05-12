@@ -5,31 +5,32 @@ import machine_language from '../assets/machine_language.jpg';
 import references from '../assets/references.jpg';
 import technology from '../assets/technology.jpg';
 import { useRef } from 'react';
+import "../css/aboutPage.css";
 
 function AboutPage() {
 
-//Using useRef make a reference to a specific DOM element
-const programmingRef = useRef(null);
+    //Using useRef make a reference to a specific DOM element
+    const programmingRef = useRef(null);
 
-//Creating function to make a callback when user action happens 
-const scrollToProgramming = () => {
-    programmingRef.current?.scrollIntoView({ behavior: 'smooth'});
-};
+    //Creating function to make a callback when user action happens 
+    const scrollToProgramming = () => {
+        programmingRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
-        <main>
-            <header>
+        <main className="about">
+            <header id="head">
                 <h1>What Is a software Application?</h1>
                 <img src={react_logo} alt="React Logo" />
                 <p>Application software is a type of computer program that performs a specific,
                     educational, and business function. Each application is designed to assist
                     end-users in accomplishing a variety of tasks, which may be related to
                     productivity, creativity, or communication.
-                    <a href="https://www.geeksforgeeks.org/what-is-application-software/" 
-                    target='_blank' rel="noreferrer">info</a></p>
+                    <a href="https://www.geeksforgeeks.org/what-is-application-software/"
+                        target='_blank' rel="noreferrer">info</a></p>
             </header>
 
-            <section>
+            <section id="technology">
                 <h2>Purpose of Applications</h2>
                 <img src={technology_Human} alt="Purpose of Apps" />
                 <p>Application software refers to programs designed to perform specific tasks for
@@ -39,10 +40,10 @@ const scrollToProgramming = () => {
                     <a href="https://en.wikipedia.org/wiki/Application_software" target='_blank'
                         rel="noreferrer">
                         info</a></p>
-            <button onClick={scrollToProgramming}>Programming Scection</button>
+                <button onClick={scrollToProgramming}>Programming Scection</button>
             </section>
 
-            <section>
+            <section id="programming">
                 <h2>How programming Languages mimics the Brain</h2>
                 <p>DOM vs. memory processing</p>
                 <img src={DOM_Virtual} alt="DOM manipulation" />
@@ -53,7 +54,7 @@ const scrollToProgramming = () => {
                         target='_blank' rel="noreferrer">info</a></p>
             </section>
 
-            <section ref= {programmingRef}>
+            <section ref={programmingRef} id="language">
                 <h2>Programming Languages</h2>
                 <img src={machine_language} alt="Programming" />
                 <p>A programming language is a formal system of notation used to express instructions
@@ -65,7 +66,7 @@ const scrollToProgramming = () => {
                         target='_blank' rel="noreferrer">info</a></p>
             </section>
 
-            <section>
+            <section id="data">
                 <h2>Data & Memory</h2>
                 <p>Connection to how the human brain stores references</p>
                 <img src={references} alt="Remembering" />
@@ -78,7 +79,7 @@ const scrollToProgramming = () => {
                         rel="noreferrer">info</a></p>
             </section>
 
-            <section>
+            <section id="human_computer">
                 <h2>Tech Timeline & human-computer interation</h2>
                 <img src={technology} alt="Evolving" />
                 <p>Human-Computer Interaction (HCI) evolved alongside technology, starting with
