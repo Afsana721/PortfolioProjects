@@ -34,7 +34,6 @@ const getDashboardPage = async (req, res) => {
     }
 };
 
-
 const postUserNote = async (req, res) => {
     if (!req.session.userId) return res.redirect('/login');
     try {

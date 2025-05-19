@@ -1,12 +1,14 @@
 
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/loginForm.css';
 
 //create a funcional component 
 
-function LoginForm() {
+function LoginForm(props) {
+
+    const navigate = useNavigate();
 
     //How to use username inside jsx - then comes to the state concept from react 
     const [userData, setUserData] = useState({
@@ -18,7 +20,6 @@ function LoginForm() {
     /*store username from event but the event will happens inside this funciton jsx or html 
     form, this funciton able gets access this username data as it accessiblity. */
     const handleLoginData = function (event) {
-
         /*take an object by distructured so it get objects key and values from the event's target object. */
         const { name, value } = event.target;
 
@@ -32,14 +33,16 @@ function LoginForm() {
     const handleServerLoginData = async function (event) {
         event.preventDefault();
         try {
-            const response = await axios.post('localhost:5000/LoginForm', userData);
+            const response = await axios.post('http://localhost:5000/LoginForm', userData);
             console.log(response.data.message);
+            setUserData({ username: '', email: '', password: '' });
+            navigate("/UserProfile");
+            props.appsUserData(response.data.user);
         }
         catch (error) {
             console.log("Error : " + error);
         }
     }
-
     return (
         <section className='loginSce'>
             <section>

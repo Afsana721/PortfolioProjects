@@ -1,5 +1,5 @@
 /* Use this controller file to grab user prfile & user post data*/
-const post = require('../models/userModel');
+const { post } = require('../models/userModel');
 
 //Use multer object to handle image data
 const multer = require("multer");
@@ -22,6 +22,7 @@ const saveUserPostData = async function (req, res) {
     try {
         //create an instance of post model and extract req's user input properties. 
         const newPost = new post({
+            userId: req.body.userId,
             title: req.body.title,
             description: req.body.description,
             content: req.body.content,
@@ -30,9 +31,10 @@ const saveUserPostData = async function (req, res) {
         });
         //use await operator to handle async function to wait execution context to  get response.
         //newPost is a model of mongoose and it goes to db and user the save function. 
-        await newPost.save(); // save user post 
+        const savedPost = await newPost.save(); // save user post 
         return res.status(200).json({
-            message: "User post is saved."
+            message: "User post is saved.",
+            post: savedPost
         })
     } catch (error) {
         return res.status(500).json({
@@ -49,7 +51,7 @@ const getUserPostData = async (req, res) => {
             return res.status(400).json({ message: "Missing userId in request" });
         }
         const userPost = await post.find({ userId: userId });
-        return res.status(200).json(userPost);
+        return res.status(200).json({ posts: userPost });
     } catch (error) {
         return res.status(500).json({
             message: "Server error. Please try again."

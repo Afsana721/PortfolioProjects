@@ -34,6 +34,11 @@ const userSchema = new Schema({
 
 /* Create new user post Schema */
 const userPostData = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user', // optional for future use
+        required: true
+    },
     title: {
         type: String,
         required: true,

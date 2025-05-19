@@ -1,6 +1,6 @@
 // Use this controller file to grab user data from browser via client - axios & react. 
 // So need ability to handel req object & handle mongoDB schema model and send to data base
-const user = require('../models/userModel.js');
+const { user } = require('../models/userModel.js');
 
 //Use bcrypt to encrypt the password before saving
 const bcrypt = require("bcrypt");
@@ -27,16 +27,17 @@ const getRegisterUserData = async function (req, res) {
             return res.status(200).json({ message: "Password updated. Please log in." });
         } else {
             // Create new user
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            registerData.password = hashedPassword;
             const newUser = new user(registerData);
             await newUser.save();
-            return res.status(200).json({ message: "User registered successfully" });
+                return res.status(200).json(newUser);
         }
     } catch (error) {
         console.error("Error:", error);
         return res.status(500).json({ message: "Server error. Please try again." });
     }
 };
-
 
 //Handle user login data 
 const getLoginUserData = async function (req, res) {
@@ -46,7 +47,6 @@ const getLoginUserData = async function (req, res) {
         email: req.body.email,
         password: req.body.password
     };
-
     // Destructure fields from loginData
     const { email, password } = loginData;
 
@@ -64,7 +64,8 @@ const getLoginUserData = async function (req, res) {
                 req.session.userId = getUser._id;
 
                 return res.status(200).json({
-                    message: "User successfully logged in"
+                    message: "User successfully logged in",
+                    user: getUser
                 });
             } else {
                 return res.status(401).json({

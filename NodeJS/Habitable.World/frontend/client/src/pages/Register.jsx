@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import go_ahead from '../assets/go_ahead.png';
 import '../css/register.css';
 import axios from 'axios';
 
 // Passes props to Register component 
-function Register({ appsUserData }) {
+function Register(props) {
+
+  const navigate = useNavigate();
   //Create a hook useState object where store user register input data when user type. 
   const [userData, setUserData] = useState({
     username: '',
@@ -32,14 +34,31 @@ function Register({ appsUserData }) {
   // Handle form submission and send data to server
   const handleRegisterServerData = async (event) => {
     event.preventDefault();
+    console.log("Submitting form");
     try {
       const response = await axios.post('http://localhost:5000/Register', userData);
       console.log(response.data.message);
-      appsUserData(response.data);
+      //appsUserData(response.data);
+      props.appsUserData(response.data);
+      console.log("Registered:", response.data)
+
+
+      // Optional: reset form if needed
+      setUserData({
+        username: '',
+        email: '',
+        password: '',
+        profession: '',
+        concern: '',
+        address: ''
+      });
+      // Redirect to LoginForm route
+      navigate('/LoginForm');
     } catch (error) {
       console.log("Error:", error);
     }
   };
+
 
   return (
     <section className="register-wrapper">

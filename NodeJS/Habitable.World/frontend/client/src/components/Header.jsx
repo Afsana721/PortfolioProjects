@@ -1,5 +1,5 @@
 //import images and react useState hook
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import pic1 from '../assets/NaturePic_1.jpeg';
 import pic2 from '../assets/NaturePic_2.jpeg';
@@ -31,12 +31,23 @@ function Header() {
   const [imageIndex, setImageIndex] = useState(0);
 
   //handler to handle images 
-  const handleClickImageChange = function () {
-    //set current index and increase with 1
-    setImageIndex(function (current) {
-      return (current + 1) % imageList.length;
-    });
-  }
+  // const handleClickImageChange = function () {
+  //   //set current index and increase with 1
+  //   setImageIndex(function (current) {
+  //     return (current + 1) % imageList.length;
+  //   });
+  // }
+  
+  //Using useEffect to rotating images 
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setImageIndex((current) => (current + 1) % imageList.length);
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [imageList.length]);
+
+
   return (
     <section id="header">
       <nav className="nav">
@@ -58,9 +69,7 @@ function Header() {
       <img
         id="rotating-img"
         src={imageList[imageIndex]}
-        alt="Rotating nature scene"
-        onClick={handleClickImageChange}
-      />
+        alt="Rotating nature scene"/>
     </section>
   );
 }

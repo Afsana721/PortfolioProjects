@@ -1,11 +1,13 @@
 // UserProfile.jsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import '../css/userProfile.css';
 import axios from 'axios';
 import { useCallback } from 'react';
 
 function UserProfile({ userData }) {
+
+  const imageRef = useRef();
 
   /* Create a hook object using useState to set and update user post data */
   const [userPost, setUserPost] = useState({
@@ -24,60 +26,72 @@ function UserProfile({ userData }) {
 
   /* Handle form submission and send post data to the server with FormData (for image handling) */
   const handlePostServerData = async (event) => {
-    event.preventDefault(); // Stop form default behavior
+    event.preventDefault();
+    console.log("Post form data submitted:", userPost);
 
     const formData = new FormData();
     formData.append('title', userPost.title);
     formData.append('description', userPost.description);
     formData.append('content', userPost.content);
-
+    formData.append('userId', userData._id); //important
     if (userPost.image) {
-      formData.append('image', userPost.image); // Only if user uploaded image
+      formData.append('image', userPost.image);
     }
 
     try {
-      // Send the post to server to save it in DB
-      await axios.post('http://localhost:5000/UserProfile', formData);
+      const response = await axios.post('http://localhost:5000/UserProfile', formData);
+      console.log("Post submitted:", response.data);
+      await getPostFromServer();      //refresh post list
+      setUserPost({ title: "", description: "", content: "", image: null });
+      if (imageRef.current) {
+        imageRef.current.value = null;
+      }
+
     } catch (error) {
-      console.log("Error : ", error);
+      console.log("Error:", error);
     }
   };
 
+
   /* Create a hook to store and update the list of posts fetched from DB */
   const [posts, setPost] = useState([]);
+
 
   // Create function to get posts from DB using query params based on userPost
   const getPostFromServer = useCallback(async () => {
     try {
       const userId = userData._id;
+      console.log("Fetching posts for userId:", userId);
       const response = await axios.get(`http://localhost:5000/UserProfile?userId=${userId}`);
-      setPost(response.data);
+      console.log("Fetched posts:", response.data);
+
+      const postsData = response.data?.posts || response.data?.post;
+      if (Array.isArray(postsData)) {
+        setPost(postsData);
+      } else if (postsData) {
+        setPost([postsData]); // wrap object into array
+      } else {
+        setPost([]);
+      }
+
     } catch (error) {
       console.log("Error:", error);
+      setPost([]); // prevent crash on failure
     }
   }, [userData]);
 
 
+
   //user useEffect to call funciton after first render 
   useEffect(() => {
-    const fetchData = async () => {
-      if (userData && userData._id) {
-        await getPostFromServer();
-      }
-    };
-    fetchData();
+    if (userData && userData._id) {
+      getPostFromServer();
+    }
   }, [userData, getPostFromServer]);
 
 
-
   /* Edit post data - so track which post is being edited by state, so when post edite it will store in editPost by id*/
-  const [editedPost, setEditedPost] = useState({
-    _id: '',
-    title: '',
-    description: '',
-    content: '',
-    image: null
-  });
+  const [editedPost, setEditedPost] = useState(null);
 
   //Handle edit event and take user input data
   const handleEditInput = (event) => {
@@ -109,7 +123,6 @@ function UserProfile({ userData }) {
     handleDeletePostToServer(postId);
   }
 
-
   // Delete a post by ID
   const handleDeletePostToServer = async (postId) => {
     try {
@@ -119,25 +132,27 @@ function UserProfile({ userData }) {
       console.log("Error deleting post: ", error);
     }
   };
+
+  console.log("Posts before render:", posts);
   return (
     <main className='profile-wrapper'>
       <section className='profile-container'>
 
         {/* User info display section */}
         <section className='user-card'>
-          <h1 className='profile-heading'>Welcome, {userData.name || 'Guest'}</h1>
+          <h1 className='profile-heading'>Welcome, {userData.username || 'Guest'}</h1>
           <section className='user-info'>
             <label htmlFor='name'>Name</label>
-            <input type='text' id='name' name='name' value={userData.name} />
+            <input type='text' id='name' name='name' value={userData.username} readOnly />
 
             <label htmlFor='profession'>Profession</label>
-            <input type='text' id='profession' name='profession' value={userData.profession} />
+            <input type='text' id='profession' name='profession' value={userData.profession} readOnly />
 
             <label htmlFor='address'>Address</label>
-            <input type='text' id='address' name='address' value={userData.address} />
+            <input type='text' id='address' name='address' value={userData.address} readOnly />
 
             <label htmlFor='concern'>Concern</label>
-            <input type='text' id='concern' name='concern' value={userData.concern} />
+            <input type='text' id='concern' name='concern' value={userData.concern} readOnly />
           </section>
         </section>
 
@@ -151,7 +166,7 @@ function UserProfile({ userData }) {
             <input type='text' id='description' name='description' value={userPost.description} onChange={handleUserPostData} required />
 
             <label htmlFor='image'>Image Upload</label>
-            <input type='file' id='image' name='image' accept='image/*' onChange={handleUserPostData} required />
+            <input type='file' id='image' name='image' accept='image/*' onChange={handleUserPostData} required ref={imageRef} />
 
             <label htmlFor='content'>Post Content</label>
             <input type='text' id='content' name='content' value={userPost.content} onChange={handleUserPostData} required />
@@ -160,6 +175,7 @@ function UserProfile({ userData }) {
           </form>
 
           {/* Display post list */}
+
           <section className='post-list'>
             {posts.map((post, index) => (
               <article key={index} className='post-item'>

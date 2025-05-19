@@ -45,7 +45,7 @@ app.use(session(
 connectDB();
 
 //hanlde or execute router with callback controller fucntion 
-app.use("/Register", authRouter);   //use Register route with regiter user data.
+app.use("/", authRouter);   //use Register route with regiter user data.
 app.use("/LoginForm", authRouter);  //useLoginForm route with login user data.
 app.use("/UserProfile", userProfileRouter); // use UserProfile route with user data and post data
 app.use("/api", apiRouter);
