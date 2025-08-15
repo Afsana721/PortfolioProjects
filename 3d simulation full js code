@@ -1,0 +1,770 @@
+<!-- Full 3D Simulation JavaScript -->
+  <script>
+    /**********************************************
+     *   GLOBALS & STRUCTURES
+     *********************************************/
+    let moleculeScene, moleculeCamera, moleculeRenderer, moleculeControls, moleculeGroup;
+    let msgOverlay;
+    const curingCycleTime = 20; // seconds
+    let fAtoms = [];      // references to fluorine atoms
+    let arrowHelpers = []; // references to arrow pointers
+
+    // Camera keyframes for transitions
+    const cameraKeyframes = [
+      {
+        rangeStart: 0.0,
+        rangeEnd: 0.25,
+        focus: new THREE.Vector3(-30, 5, 0),
+        message: "Visualization of a Polysiloxane Coating Curing"
+      },
+      {
+        rangeStart: 0.25,
+        rangeEnd: 0.5,
+        focus: new THREE.Vector3(-5, 5, 0),
+        message: "Visualization of a Polysilazane Coating Curing"
+      },
+      {
+        rangeStart: 0.5,
+        rangeEnd: 0.75,
+        focus: new THREE.Vector3(10, 5, 0),
+        message: "Visualization of a SOL Gel Coating Curing"
+      },
+      {
+        rangeStart: 0.75,
+        rangeEnd: 1.0,
+        focus: new THREE.Vector3(30, 5, 0),
+        message: "Visualization of a Fluoropolymer Coating Curing"
+      }
+    ];
+
+    /**********************************************
+     *   HELPER FUNCTIONS
+     *********************************************/
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    function makeTextSprite(message, parameters) {
+      parameters = parameters || {};
+      const fontface = parameters.fontface || "Arial";
+      const fontsize = parameters.fontsize || 24;
+      const borderThickness = parameters.borderThickness || 4;
+      const borderColor = parameters.borderColor || { r:0, g:0, b:0, a:1.0 };
+      const backgroundColor = parameters.backgroundColor || { r:255, g:255, b:255, a:1.0 };
+
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = fontsize + "px " + fontface;
+      const metrics = context.measureText(message);
+      const textWidth = metrics.width;
+
+      // background
+      context.fillStyle = `rgba(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b},${backgroundColor.a})`;
+      context.strokeStyle = `rgba(${borderColor.r},${borderColor.g},${borderColor.b},${borderColor.a})`;
+      context.lineWidth = borderThickness;
+      roundRect(
+        context,
+        borderThickness / 2,
+        borderThickness / 2,
+        textWidth + borderThickness,
+        fontsize * 1.4 + borderThickness,
+        6
+      );
+
+      // text
+      context.fillStyle = "rgba(0, 0, 0, 1.0)";
+      context.fillText(message, borderThickness, fontsize + borderThickness);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+      const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.scale.set(10, 5, 1.0);
+      return sprite;
+    }
+
+    function createArrowToObject(scene, fromPos, toObj, color=0xff0000){
+      // Arrows from a point above the fluorine down onto the fluorine
+      let dir = new THREE.Vector3().subVectors(toObj.position, fromPos).normalize();
+      let dist = fromPos.distanceTo(toObj.position);
+      const arrow=new THREE.ArrowHelper(dir, fromPos, dist, color,1.2,0.6);
+      scene.add(arrow);
+      return arrow;
+    }
+
+    function createBond(start, end, radius=0.15, color=0xaaaaaa) {
+      const direction = new THREE.Vector3().subVectors(end, start);
+      const length = direction.length();
+      const geometry = new THREE.CylinderGeometry(radius, radius, length, 7);
+      const material = new THREE.MeshStandardMaterial({
+        color: color,
+        roughness: 0.8,
+        transparent: true,
+        opacity: 0
+      });
+      const cylinder = new THREE.Mesh(geometry, material);
+
+      cylinder.position.copy(start).add(direction.multiplyScalar(0.5));
+      cylinder.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+      return cylinder;
+    }
+
+    function createBondLine(start, end, color=0xaaaaaa) {
+      const points = [start.clone(), end.clone()];
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineDashedMaterial({
+        color: color,
+        dashSize: 3,
+        gapSize: 7,
+        linewidth: 5,
+        transparent: true,
+        opacity: 0
+      });
+      const line = new THREE.Line(geometry, material);
+      line.computeLineDistances();
+      return line;
+    }
+
+    /**********************************************
+     *   MOLECULE CREATION
+     *********************************************/
+
+    /* Competitor Polysiloxane: Si–O, no substrate bond */
+    function createCompetitorPolysiloxane(offset) {
+      const group = new THREE.Group();
+      group.name = "Polysiloxane";
+      group.userData.bonds = [];
+
+      const label = makeTextSprite("Polysiloxane", {
+        fontsize: 28
+      });
+      label.position.set(0,4,0);
+      group.add(label);
+
+      // Central Si
+      const siGeo = new THREE.SphereGeometry(1.2, 32, 32);
+      const siMat = new THREE.MeshStandardMaterial({ color: 0xffa500, roughness: 0.4 });
+      const si = new THREE.Mesh(siGeo, siMat);
+      group.add(si);
+
+      const siLabel = makeTextSprite("Si–O\n(no bond to substrate)", {fontsize:20});
+      siLabel.position.set(0,1.5,0);
+      si.add(siLabel);
+
+      // 4 O
+      const directions = [
+        new THREE.Vector3(1, 1, 1).normalize(),
+        new THREE.Vector3(-1, -1, 1).normalize(),
+        new THREE.Vector3(-1, 1, -1).normalize(),
+        new THREE.Vector3(1, -1, -1).normalize()
+      ];
+      const finalDistance = 4, initialScale = 1.5;
+      for(let i=0; i<directions.length; i++){
+        let finalPos = directions[i].clone().multiplyScalar(finalDistance);
+        let initPos  = directions[i].clone().multiplyScalar(finalDistance * initialScale);
+
+        const oGeo = new THREE.SphereGeometry(0.8, 32, 32);
+        const oMat = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5 });
+        let o = new THREE.Mesh(oGeo, oMat);
+        o.position.copy(initPos);
+        o.userData.initialPosition = initPos.clone();
+        o.userData.finalPosition   = finalPos.clone();
+        group.add(o);
+
+        let oLab = makeTextSprite("O", {fontsize:20});
+        oLab.position.set(0,1,0);
+        o.add(oLab);
+
+        let bondCyl = createBond(new THREE.Vector3(0,0,0), finalPos, 0.2, 0xaaaaaa);
+        group.add(bondCyl);
+        group.userData.bonds.push(bondCyl);
+
+        let bondLine = createBondLine(new THREE.Vector3(0,0,0), finalPos, 0xaaaaaa);
+        group.add(bondLine);
+        group.userData.bonds.push(bondLine);
+      }
+
+      group.position.copy(offset||new THREE.Vector3(-30,0,0));
+      group.userData.rotationSpeed = 0.01;
+      return group;
+    }
+
+    /* Nanize Polysilazane: Si–N–H, substrate bond */
+    function createNanizePolysilazane(offset) {
+      const group = new THREE.Group();
+      group.name = "Nanize Polysilazane";
+      group.userData.bonds = [];
+
+      const label = makeTextSprite("Polysilazane", {
+        fontsize: 28
+      });
+      label.position.set(0,4,0);
+      group.add(label);
+
+      // Central Si
+      const siGeo = new THREE.SphereGeometry(1.2, 32, 32);
+      const siMat = new THREE.MeshStandardMaterial({ color: 0x00ff7f, roughness: 0.4 });
+      let si = new THREE.Mesh(siGeo, siMat);
+      group.add(si);
+
+      const siLabel = makeTextSprite("Si center\nstrong substrate bond", {fontsize:20});
+      siLabel.position.set(0,1.5,0);
+      si.add(siLabel);
+
+      // 4 N directions
+      const directions = [
+        new THREE.Vector3(1, 1, 1).normalize(),
+        new THREE.Vector3(-1, -1, 1).normalize(),
+        new THREE.Vector3(-1, 1, -1).normalize(),
+        new THREE.Vector3(1, -1, -1).normalize()
+      ];
+      const finalDistance = 4, initialScale=1.5;
+      for(let i=0;i<directions.length;i++){
+        let finalPos = directions[i].clone().multiplyScalar(finalDistance);
+        let initPos  = directions[i].clone().multiplyScalar(finalDistance*initialScale);
+
+        const nGeo = new THREE.SphereGeometry(0.8, 32,32);
+        const nMat = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness:0.5 });
+        let n = new THREE.Mesh(nGeo, nMat);
+        n.position.copy(initPos);
+        n.userData.initialPosition=initPos.clone();
+        n.userData.finalPosition=finalPos.clone();
+        group.add(n);
+
+        let nLab = makeTextSprite("N\n(substrate bond)", {fontsize:20});
+        nLab.position.set(0,1,0);
+        n.add(nLab);
+
+        // bond to central Si
+        let bondCyl = createBond(new THREE.Vector3(0,0,0), finalPos, 0.2, 0x00ffff);
+        group.add(bondCyl);
+        group.userData.bonds.push(bondCyl);
+
+        let bondLine = createBondLine(new THREE.Vector3(0,0,0), finalPos, 0x00ffff);
+        group.add(bondLine);
+        group.userData.bonds.push(bondLine);
+
+        // Add some H around N for realism
+        for(let h=0; h<2; h++){
+          let hDir = new THREE.Vector3(
+            (Math.random()-0.5)*1,
+            (Math.random()-0.5)*1,
+            (Math.random()-0.5)*1
+          ).normalize();
+          let hDist = 1.5;
+          let hPos = n.position.clone().add(hDir.multiplyScalar(hDist));
+
+          const hGeo = new THREE.SphereGeometry(0.4,16,16);
+          const hMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness:0.3 });
+          let hydrogen = new THREE.Mesh(hGeo, hMat);
+
+          // We'll treat the initial as near N
+          hydrogen.userData.initialPosition = n.position.clone();
+          hydrogen.userData.finalPosition = hPos.clone();
+          hydrogen.position.copy(n.position);
+          group.add(hydrogen);
+
+          let hLab = makeTextSprite("H", {fontsize:14});
+          hLab.position.set(0,0.5,0);
+          hydrogen.add(hLab);
+
+          // bond from N to H
+          let bondCH = createBond(n.position, hPos, 0.1, 0x999999);
+          group.add(bondCH);
+          group.userData.bonds.push(bondCH);
+
+          let bondLineCH = createBondLine(n.position, hPos, 0x999999);
+          group.add(bondLineCH);
+          group.userData.bonds.push(bondLineCH);
+        }
+      }
+
+      group.position.copy(offset||new THREE.Vector3(-5,0,0));
+      group.userData.rotationSpeed=0.011;
+      return group;
+    }
+
+    /* SOL Gel with some F */
+    function createSOLGelMolecule(offset) {
+      const group = new THREE.Group();
+      group.name = "SOL Gel (some fluorine)";
+      group.userData.bonds=[];
+
+      const label = makeTextSprite("SOL Gel", {fontsize:28});
+      label.position.set(0,4,0);
+      group.add(label);
+
+      let numAtoms=10;
+      let atoms=[];
+      for(let i=0;i<numAtoms;i++){
+        let pos = new THREE.Vector3(
+          (Math.random()-0.5)*12,
+          (Math.random()-0.5)*12,
+          (Math.random()-0.5)*12
+        );
+        let finalPos=pos.clone();
+        let initPos=pos.clone().multiplyScalar(1.2);
+        let radius=0.7+Math.random()*0.3;
+        let isF=(Math.random()<0.3);
+
+        let color=isF ? 0xff0000 : 0xff0000;
+        let geo = new THREE.SphereGeometry(radius,32,32);
+        let mat = new THREE.MeshStandardMaterial({color, roughness:0.6});
+        let atom=new THREE.Mesh(geo,mat);
+        atom.position.copy(initPos);
+        atom.userData.initialPosition=initPos.clone();
+        atom.userData.finalPosition=finalPos.clone();
+        group.add(atom);
+
+        let labelText=isF?"Fluorine is Bad!":"O";
+        let aLab=makeTextSprite(labelText,{fontsize:18});
+        aLab.position.set(0,radius+0.3,0);
+        atom.add(aLab);
+
+        if(isF) {
+          fAtoms.push(atom);
+        }
+        atoms.push(atom);
+      }
+
+      // random bonds
+      for(let i=1;i<atoms.length;i++){
+        if(Math.random()>0.5){
+          let start=atoms[i-1].userData.finalPosition;
+          let end=atoms[i].userData.finalPosition;
+          let cyl=createBond(start,end,0.15,0xaaaaaa);
+          group.add(cyl);
+          group.userData.bonds.push(cyl);
+
+          let line=createBondLine(start,end,0xaaaaaa);
+          group.add(line);
+          group.userData.bonds.push(line);
+        }
+      }
+
+      group.position.copy(offset||new THREE.Vector3(10,0,0));
+      group.userData.rotationSpeed=0.005;
+      return group;
+    }
+
+    /* Fluoropolymer PFAS */
+    function createFluoropolymerMolecule(offset) {
+      const group = new THREE.Group();
+      group.name = "Fluoropolymer (PFAS - bad)";
+      group.userData.bonds=[];
+
+      const label=makeTextSprite("Fluoropolymer",{fontsize:28});
+      label.position.set(0,4,0);
+      group.add(label);
+
+      let chainLength=5, spacing=3;
+      let carbonAtoms=[];
+
+      for(let i=0;i<chainLength;i++){
+        let cGeo=new THREE.SphereGeometry(1,32,32);
+        let cMat=new THREE.MeshStandardMaterial({color:0x333333, roughness:0.7});
+        let c=new THREE.Mesh(cGeo,cMat);
+        c.position.set(i*spacing-((chainLength-1)*spacing)/2,0,0);
+        carbonAtoms.push(c);
+        group.add(c);
+
+        let cLabel=makeTextSprite("C",{fontsize:20});
+        cLabel.position.set(0,1.2,0);
+        c.add(cLabel);
+      }
+
+      for(let i=1;i<chainLength;i++){
+        let start=carbonAtoms[i-1].position;
+        let end=carbonAtoms[i].position;
+        let bondCyl=createBond(start,end,0.15,0xaaaaaa);
+        group.add(bondCyl);
+        group.userData.bonds.push(bondCyl);
+
+        let bondLine=createBondLine(start,end,0xaaaaaa);
+        group.add(bondLine);
+        group.userData.bonds.push(bondLine);
+      }
+
+      // Attach F
+      for(let i=0;i<chainLength;i++){
+        let fGeo=new THREE.SphereGeometry(0.7,32,32);
+        let fMat=new THREE.MeshStandardMaterial({color:0xff0000, roughness:0.3});
+        let fluorine=new THREE.Mesh(fGeo,fMat);
+
+        let finalPos=carbonAtoms[i].position.clone().add(new THREE.Vector3(0,2,0));
+        let initPos=carbonAtoms[i].position.clone().add(new THREE.Vector3(0,3,0));
+        fluorine.position.copy(initPos);
+
+        fluorine.userData.initialPosition=initPos.clone();
+        fluorine.userData.finalPosition=finalPos.clone();
+        group.add(fluorine);
+
+        let bondCyl=createBond(carbonAtoms[i].position, finalPos, 0.15,0xaaaaaa);
+        group.add(bondCyl);
+        group.userData.bonds.push(bondCyl);
+
+        let bondLine=createBondLine(carbonAtoms[i].position, finalPos,0xaaaaaa);
+        group.add(bondLine);
+        group.userData.bonds.push(bondLine);
+
+        let fLabel=makeTextSprite("Fluorine is Bad!",{fontsize:20});
+        fLabel.position.set(0,0.9,0);
+        fluorine.add(fLabel);
+
+        fAtoms.push(fluorine);
+      }
+
+      group.position.copy(offset||new THREE.Vector3(30,0,0));
+      group.userData.rotationSpeed=0.008;
+      return group;
+    }
+
+    /* Create all molecules in the scene */
+    function createMultipleMolecules() {
+      moleculeGroup.clear();
+      fAtoms=[];
+      arrowHelpers=[];
+
+      let competitor = createCompetitorPolysiloxane(new THREE.Vector3(-30,0,0));
+      let nanize    = createNanizePolysilazane(new THREE.Vector3(-5,0,0));
+      let solGel    = createSOLGelMolecule(new THREE.Vector3(10,0,0));
+      let pfas      = createFluoropolymerMolecule(new THREE.Vector3(30,0,0));
+
+      moleculeGroup.add(competitor);
+      moleculeGroup.add(nanize);
+      moleculeGroup.add(solGel);
+      moleculeGroup.add(pfas);
+    }
+
+    /**********************************************
+     *   SCENE SETUP & RENDER
+     *********************************************/
+    function setMessageOverlay(txt) {
+      if(!msgOverlay) return;
+      if(!txt){
+        msgOverlay.style.display="none";
+        return;
+      }
+      msgOverlay.style.display="block";
+      msgOverlay.innerHTML=txt;
+    }
+
+    function initMoleculeSimulation() {
+      msgOverlay=document.getElementById("msgOverlay");
+
+      const canvas=document.getElementById("moleculeCanvas");
+      const container=document.getElementById("molecular-simulation")||canvas.parentNode;
+      let w=container.clientWidth;
+      canvas.width=w-40;
+      canvas.height=500;
+
+      moleculeRenderer=new THREE.WebGLRenderer({canvas, antialias:true});
+      moleculeRenderer.setSize(canvas.width,canvas.height);
+
+      moleculeScene=new THREE.Scene();
+      moleculeScene.background=new THREE.Color(0xf0f0f0);
+
+      moleculeCamera=new THREE.PerspectiveCamera(15, canvas.width/canvas.height,0.1,500);
+      moleculeCamera.position.set(0,20,10);
+
+      moleculeControls=new THREE.OrbitControls(moleculeCamera,moleculeRenderer.domElement);
+      moleculeControls.enableDamping=true;
+      moleculeControls.dampingFactor=0.1;
+
+      moleculeGroup=new THREE.Group();
+      moleculeScene.add(moleculeGroup);
+
+      createMultipleMolecules();
+
+
+
+      animateMolecules();
+    }
+
+
+    function updateCameraFocus(curingProgress){
+      for(let i=0;i<cameraKeyframes.length;i++){
+        let kf=cameraKeyframes[i];
+        if(curingProgress>=kf.rangeStart && curingProgress<kf.rangeEnd){
+          let focusPos=kf.focus.clone();
+          let desiredPos=focusPos.clone().add(new THREE.Vector3(0,20,80));
+          moleculeCamera.position.lerp(desiredPos,0.02);
+          moleculeCamera.lookAt(focusPos);
+          setMessageOverlay(kf.message);
+          return;
+        }
+      }
+      setMessageOverlay("");
+    }
+
+    function updateCuringInfo(progress){
+      let info=document.getElementById("curingInfo");
+      let text="";
+      if(progress<0.2){
+        text="Pre-Initiation: Atoms & H dancing wildly.";
+      } else if(progress<0.4){
+        text="Initiation: partial crosslink forming. Notice Si–N–H vs. Si–O.";
+      } else if(progress<0.8){
+        text="Reaction: Covalent bonds finalize. Fluorine glows red (harmful).";
+      } else {
+        text="Curing: Full crosslink. Nanize Polysilazane strongly bonded to substrate!";
+      }
+      info.innerHTML="Curing Process: "+text+" ("+Math.floor(progress*100)+"%)";
+    }
+
+    function animateMolecules(){
+      requestAnimationFrame(animateMolecules);
+      let time=Date.now()*0.001;
+      let cProg=(time%curingCycleTime)/curingCycleTime;
+
+      document.getElementById("loadingBar").style.width=(cProg*100)+"%";
+      updateCameraFocus(cProg);
+      updateCuringInfo(cProg);
+
+      moleculeScene.background=new THREE.Color().setHSL(0.6-0.1*cProg,0.3,0.9);
+
+      moleculeGroup.children.forEach(cont=>{
+        cont.rotation.y += cont.userData.rotationSpeed||0.005;
+        cont.traverse(child=>{
+          if(child.isMesh){
+            // If it has initial & final positions
+            if(child.userData.initialPosition && child.userData.finalPosition){
+              if(cProg<0.2){
+                child.position.copy(child.userData.initialPosition);
+                let jitter=new THREE.Vector3(
+                  (Math.random()-0.5)*0.5,
+                  (Math.random()-0.5)*0.5,
+                  (Math.random()-0.5)*0.5
+                );
+                child.position.add(jitter);
+              } else if(cProg<0.4){
+                child.position.copy(child.userData.initialPosition);
+                let pulse=1+0.05*Math.sin(time*3);
+                child.scale.set(pulse,pulse,pulse);
+              } else if(cProg<0.8){
+                let tMorph=(cProg-0.4)/0.4;
+                child.position.lerpVectors(child.userData.initialPosition,child.userData.finalPosition,tMorph);
+                child.scale.set(1,1,1);
+              } else {
+                child.position.copy(child.userData.finalPosition);
+                child.scale.set(1,1,1);
+              }
+            }
+            // If in bonds list, animate opacity
+            if(cont.userData.bonds && cont.userData.bonds.indexOf(child)>=0){
+              if(cProg<0.2){
+                child.material.opacity=0.2;
+              } else if(cProg<0.8){
+                let tBond=(cProg-0.2)/0.6;
+                child.material.opacity=Math.max(0,Math.min(1,tBond));
+              } else {
+                child.material.opacity=1;
+              }
+              if(child.material instanceof THREE.LineDashedMaterial){
+                child.material.dashOffset=-(cProg*20);
+              }
+              child.material.emissiveIntensity=cProg*0.8;
+            } else {
+              // Atom emissive flickers
+              if(cProg<0.2){
+                child.material.emissiveIntensity=0.3+0.1*Math.sin(time*3);
+              } else if(cProg<0.4){
+                let factor=(cProg-0.2)/0.2;
+                child.material.emissiveIntensity=0.3+factor*0.7;
+              } else if(cProg<0.8){
+                child.material.emissiveIntensity=1.0;
+              } else {
+                child.material.emissiveIntensity=1.0+0.3*Math.sin(time*10);
+              }
+              // If in fluorine list, glow red
+              if(fAtoms.indexOf(child)>=0){
+                let glow=0.5+0.5*Math.abs(Math.sin(time*5));
+                child.material.color.setHSL(0,1,0.5+0.2*glow);
+                child.material.emissive.setRGB(glow,0,0);
+              }
+            }
+          }
+        });
+        // Slight scale pulse near end
+        if(cProg>0.8){
+          let sp=1+0.05*Math.sin(time*5);
+          cont.scale.set(sp,sp,sp);
+        } else {
+          cont.scale.set(1,1,1);
+        }
+      });
+
+      moleculeControls.update();
+      moleculeRenderer.render(moleculeScene,moleculeCamera);
+    }
+
+    // 2D Commercial Animations
+    function initPlaneSimulation() {
+      const planeDiv=document.getElementById('plane-simulation');
+      if(!planeDiv) return;
+      planeDiv.style.background='linear-gradient(135deg,#dfe9f3,#ffffff)';
+      const plane=document.createElement('div');
+      plane.innerText='✈️';
+      plane.style.position='absolute';
+      plane.style.fontSize='48px';
+      planeDiv.appendChild(plane);
+
+      let theta=0;
+      const cw=planeDiv.clientWidth, ch=planeDiv.clientHeight;
+      const radius=Math.min(cw,ch)/2-30;
+      const cx=cw/2, cy=ch/2;
+      const speed=0.005;
+      function animatePlane(){
+        theta+=speed;
+        let x=cx+radius*Math.cos(theta)-25;
+        let y=cy+radius*Math.sin(theta)-25;
+        let angle=Math.atan2(-radius*Math.sin(theta), radius*Math.cos(theta))*(180/Math.PI);
+        plane.style.left=x+'px';
+        plane.style.top=y+'px';
+        plane.style.transform="rotate("+angle+"deg)";
+        requestAnimationFrame(animatePlane);
+      }
+      animatePlane();
+    }
+
+    function initPanSimulation() {
+      const panDiv=document.getElementById('pan-simulation');
+      if(!panDiv) return;
+      panDiv.style.background='linear-gradient(135deg,#fff1e6,#ffe6cc)';
+      const panEmoji=document.createElement('div');
+      panEmoji.innerText='🥘';
+      panEmoji.style.position='absolute';
+      panEmoji.style.fontSize='48px';
+      panEmoji.style.left='calc(50% - 24px)';
+      panEmoji.style.top='calc(50% - 24px)';
+      panDiv.appendChild(panEmoji);
+
+      const eggWhite=document.createElement('div');
+      eggWhite.style.position='absolute';
+      eggWhite.style.width='60px';
+      eggWhite.style.height='60px';
+      eggWhite.style.background='#fff';
+      eggWhite.style.borderRadius='50%';
+      eggWhite.style.border='2px solid #eee';
+      eggWhite.style.left='calc(50% - 30px)';
+      eggWhite.style.top='calc(50% - 30px)';
+
+      const eggYolk=document.createElement('div');
+      eggYolk.style.position='absolute';
+      eggYolk.style.width='25px';
+      eggYolk.style.height='25px';
+      eggYolk.style.background='#ffcc00';
+      eggYolk.style.borderRadius='50%';
+      eggYolk.style.left='calc(50% - 12.5px)';
+      eggYolk.style.top='calc(50% - 12.5px)';
+
+      panDiv.appendChild(eggWhite);
+      panDiv.appendChild(eggYolk);
+
+      let t=0;
+      const cw=panDiv.clientWidth;
+      const speed=cw/8;
+      const baseY=panDiv.clientHeight/2-20;
+      function animatePan(){
+        t+=0.02;
+        let x=(t*speed)%(cw+100)-50;
+        let amplitude=15*Math.exp(-0.5*(t%5));
+        let y=baseY+amplitude*Math.abs(Math.sin(t*Math.PI));
+
+        eggWhite.style.left=x+'px';
+        eggWhite.style.top=y+'px';
+        eggYolk.style.left=(x+17)+'px';
+        eggYolk.style.top=(y+17)+'px';
+
+        requestAnimationFrame(animatePan);
+      }
+      animatePan();
+    }
+
+    function initCarSimulation() {
+      const carDiv=document.getElementById('car-simulation');
+      if(!carDiv) return;
+      carDiv.style.background='linear-gradient(135deg,#e6f7ff,#ffffff)';
+      const car=document.createElement('div');
+      car.innerText='🚗';
+      car.style.position='absolute';
+      car.style.fontSize='48px';
+      carDiv.appendChild(car);
+
+      let t=0;
+      const cw=carDiv.clientWidth, ch=carDiv.clientHeight;
+      const a=cw/2-50, b=ch/3;
+      const cx=cw/2, cy=ch/2;
+      const omega=0.01;
+      function animateCar(){
+        t+=omega;
+        let x=cx+a*Math.cos(t)-50;
+        let y=cy+b*Math.sin(t)-25;
+        let angle=Math.atan2(b*Math.cos(t),-a*Math.sin(t))*(180/Math.PI)+180;
+        car.style.left=x+'px';
+        car.style.top=y+'px';
+        car.style.transform="rotate("+angle+"deg)";
+        requestAnimationFrame(animateCar);
+      }
+      animateCar();
+    }
+
+    function initGlassesSimulation() {
+      const glassesDiv=document.getElementById('glasses-simulation');
+      if(!glassesDiv) return;
+      glassesDiv.style.background='linear-gradient(135deg,#fce4ec,#f8bbd0)';
+      const glasses=document.createElement('div');
+      glasses.innerText='👓';
+      glasses.style.position='absolute';
+      glasses.style.fontSize='48px';
+      glassesDiv.appendChild(glasses);
+
+      let t=0;
+      const baseX=20, baseY=glassesDiv.clientHeight/2, amplitude=20;
+      function animateGlasses(){
+        t+=0.015;
+        let x=baseX+amplitude*Math.cos(t);
+        let y=baseY+amplitude*Math.sin(t);
+        let angle=Math.atan2(amplitude*Math.cos(t),-amplitude*Math.sin(t))*(180/Math.PI);
+        glasses.style.left=x+'px';
+        glasses.style.top=y+'px';
+        glasses.style.transform="rotate("+angle+"deg)";
+
+        let shine=5+5*Math.abs(Math.sin(t*2));
+        glasses.style.textShadow="0 0 "+shine+"px gold";
+        requestAnimationFrame(animateGlasses);
+      }
+      animateGlasses();
+    }
+
+    window.onload=function(){
+      initMoleculeSimulation();
+      initPlaneSimulation();
+      initPanSimulation();
+      initCarSimulation();
+      initGlassesSimulation();
+    };
+
+    window.addEventListener("resize",function(){
+      const canvas=document.getElementById("moleculeCanvas");
+      const container=document.getElementById("molecular-simulation")||canvas.parentNode;
+      let w=container.clientWidth;
+      canvas.width=w;
+      canvas.height=500;
+      moleculeCamera.aspect=w/10;
+      moleculeCamera.updateProjectionMatrix();
+      moleculeRenderer.setSize(w,500);
+    });
+  </script>
